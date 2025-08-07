@@ -26,4 +26,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditAnywhere)
+	bool hasProtection = false;
+
+	UPROPERTY(EditAnywhere)
+	bool isSelected = false;
+
 };

@@ -23,6 +23,7 @@ ABoardSquare::ABoardSquare()
 void ABoardSquare::BeginPlay()
 {
 	Super::BeginPlay();
+	SetActorHiddenInGame(true);
 }
 
 // Called every frame
@@ -33,10 +34,10 @@ void ABoardSquare::Tick(float DeltaTime)
 
 void ABoardSquare::BeginMouseOver(UPrimitiveComponent *TouchedComponent)
 {
-	SetActorHiddenInGame(true);
+	SetActorHiddenInGame(false);
 }
 
 void ABoardSquare::EndMouseOver(UPrimitiveComponent *TouchedComponent)
 {
-	SetActorHiddenInGame(false);
+	SetActorHiddenInGame(true);
 }

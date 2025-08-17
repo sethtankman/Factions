@@ -26,10 +26,19 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+	void BeginMouseOver(UPrimitiveComponent* TouchedComponent);
+
+	UFUNCTION()
+	void EndMouseOver(UPrimitiveComponent* TouchedComponent);
+
 	UPROPERTY(EditAnywhere)
 	bool hasProtection = false;
 
 	UPROPERTY(EditAnywhere)
 	bool isSelected = false;
+
+	UPROPERTY(EditAnywhere) 
+	UStaticMeshComponent* BaseMesh;
 
 };

@@ -2,7 +2,9 @@
 
 
 #include "Piece.h"
+#include "FactionsGameMode.h"
 #include "Components/CapsuleComponent.h"
+#include "kismet/GameplayStatics.h"
 
 // Sets default values
 APiece::APiece()
@@ -15,6 +17,7 @@ APiece::APiece()
 	if(BaseMesh) {
 		BaseMesh->SetupAttachment(RootComponent);
 		BaseMesh->OnBeginCursorOver.AddDynamic(this, &APiece::BeginMouseOver);
+		BaseMesh->OnClicked.AddDynamic(this, &APiece::PieceSelected);
 	}
 }
 
@@ -43,4 +46,10 @@ void APiece::EndMouseOver(UPrimitiveComponent *TouchedComponent) {}
 
 void APiece::BeginMouseOver(UPrimitiveComponent *TouchedComponent) {
 
+}
+
+void APiece::PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey) {
+	FString Name = GetName();
+	UE_LOG(LogTemp , Display, TEXT("%s selected"), *Name);
+	AFactionsGameMode* FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
 }

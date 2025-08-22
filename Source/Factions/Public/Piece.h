@@ -31,6 +31,9 @@ public:
 
 	UFUNCTION()
 	void EndMouseOver(UPrimitiveComponent* TouchedComponent);
+	
+	UFUNCTION()
+	void PieceSelected(UPrimitiveComponent* TouchedComponent, FKey InKey);
 
 	UPROPERTY(EditAnywhere)
 	bool hasProtection = false;
@@ -40,5 +43,7 @@ public:
 
 	UPROPERTY(EditAnywhere) 
 	UStaticMeshComponent* BaseMesh;
+
+	static APiece* SelectedPiece;
 
 };

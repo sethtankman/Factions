@@ -25,3 +25,8 @@ void AFactionsBoard::Tick(float DeltaTime)
 
 }
 
+void AFactionsBoard::HighlightSquares(char standin) 
+{
+	TCHAR myChar = TCHAR(standin);
+	UE_LOG(LogTemp , Display, TEXT("%c selected"), myChar);
+}

@@ -2,4 +2,9 @@
 
 
 #include "FactionsGameMode.h"
+#include "FactionsPlayerController.h"
 
+AFactionsGameMode::AFactionsGameMode()
+{
+    PlayerControllerClass = AFactionsPlayerController::StaticClass();
+}

@@ -2,6 +2,7 @@
 
 
 #include "Piece.h"
+#include "FactionsBoard.h"
 #include "FactionsGameMode.h"
 #include "Components/CapsuleComponent.h"
 #include "kismet/GameplayStatics.h"
@@ -52,4 +53,5 @@ void APiece::PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey) {
 	FString Name = GetName();
 	UE_LOG(LogTemp , Display, TEXT("%s selected"), *Name);
 	AFactionsGameMode* FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
+	FactionsGameMode->FactionsBoard->HighlightSquares('g');
 }

@@ -16,6 +16,10 @@ class FACTIONS_API AFactionsGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	public:
+		// Sets default values for Faction Game Mode
+		AFactionsGameMode();
+		
 		UPROPERTY()
 		AFactionsBoard* FactionsBoard;
+
 };

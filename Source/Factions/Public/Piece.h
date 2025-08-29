@@ -36,13 +36,13 @@ public:
 	void PieceSelected(UPrimitiveComponent* TouchedComponent, FKey InKey);
 
 	UPROPERTY(EditAnywhere)
-	bool hasProtection = false;
-
-	UPROPERTY(EditAnywhere)
 	bool isSelected = false;
 
 	UPROPERTY(EditAnywhere) 
 	UStaticMeshComponent* BaseMesh;
+
+	UPROPERTY(EditAnywhere, Category="Piece Settings")
+	FVector RaiseHeight;
 
 	static APiece* SelectedPiece;
 

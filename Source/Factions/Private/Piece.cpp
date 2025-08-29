@@ -54,4 +54,6 @@ void APiece::PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey) {
 	UE_LOG(LogTemp , Display, TEXT("%s selected"), *Name);
 	AFactionsGameMode* FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
 	FactionsGameMode->FactionsBoard->HighlightSquares('g');
+	FVector CurrentLocation = GetActorLocation();
+	SetActorLocation(CurrentLocation + RaiseHeight);
 }

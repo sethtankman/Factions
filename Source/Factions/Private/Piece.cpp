@@ -53,7 +53,14 @@ void APiece::PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey) {
 	FString Name = GetName();
 	UE_LOG(LogTemp , Display, TEXT("%s selected"), *Name);
 	AFactionsGameMode* FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-	FactionsGameMode->FactionsBoard->HighlightSquares('g');
+	if(!IsValid(FactionsGameMode)) {
+		UE_LOG(LogTemp , Display, TEXT("FactionsGameMode not valid"), *Name);
+	}
+	
+	if(!IsValid(FactionsGameMode->FactionsBoard)) {
+		UE_LOG(LogTemp , Display, TEXT("FactionsBoard not valid"), *Name);
+	}
+	FactionsGameMode->FactionsBoard->HighlightSquares(MovesX, MovesY, BoardPosition);
 	FVector CurrentLocation = GetActorLocation();
 	SetActorLocation(CurrentLocation + RaiseHeight);
 }

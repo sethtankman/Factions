@@ -2,6 +2,8 @@
 
 
 #include "FactionsBoard.h"
+#include "BoardSquare.h"
+#include <cmath>
 
 // Sets default values
 AFactionsBoard::AFactionsBoard()
@@ -15,7 +17,13 @@ AFactionsBoard::AFactionsBoard()
 void AFactionsBoard::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Squares.Reserve(64);
+	FVector Offset = FVector(360, 360, 40);
+	float SquareSize = -104;
+	for(int i = 0; i< 64; i++) {
+		FVector SquarePlacement = FVector((i / 8) * SquareSize, (i % 8) * SquareSize, 0);
+		Squares.Emplace(GetWorld()->SpawnActor<ABoardSquare>(BP_BoardSquareClass, GetActorLocation() + Offset + SquarePlacement, GetActorRotation()));
+	}
 }
 
 // Called every frame
@@ -25,8 +33,20 @@ void AFactionsBoard::Tick(float DeltaTime)
 
 }
 
-void AFactionsBoard::HighlightSquares(char standin) 
+void AFactionsBoard::HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> PiecePosition) 
 {
-	TCHAR myChar = TCHAR(standin);
-	UE_LOG(LogTemp , Display, TEXT("%c selected"), myChar);
+
+	for(int i = 0; i < x.Num(); i++)
+	{
+		int boardPositionX = PiecePosition[0] + x[i];
+		int boardPositionY = PiecePosition[1] + y[i];
+		if(IsValidSquare(boardPositionX, boardPositionY)) 
+		{
+			Squares[(boardPositionX*8)+boardPositionY]->Hide(false);
+		}
+	}
+}
+
+bool AFactionsBoard::IsValidSquare(int x, int y) {
+	return x >= 0 && x < 8 && y >= 0 && y < 8;
 }

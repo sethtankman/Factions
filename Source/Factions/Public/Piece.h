@@ -44,6 +44,14 @@ public:
 	UPROPERTY(EditAnywhere, Category="Piece Settings")
 	FVector RaiseHeight;
 
-	static APiece* SelectedPiece;
+	UPROPERTY(EditAnywhere, Category="Piece Settings")
+	TArray<int> MovesX;
 
+	UPROPERTY(EditAnywhere, Category="Piece Settings")
+	TArray<int> MovesY;
+
+	UPROPERTY(EditAnywhere, Category="Piece Settings")
+	TArray<int> BoardPosition;
+
+	static APiece* SelectedPiece;
 };

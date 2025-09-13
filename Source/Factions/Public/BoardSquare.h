@@ -32,4 +32,7 @@ public:
 	UFUNCTION()
 	void EndMouseOver(UPrimitiveComponent* TouchedComponent);
 
+	UFUNCTION()
+	void Hide(bool tf);
+
 };

@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "FactionsBoard.generated.h"
 
+class ABoardSquare;
+
 UCLASS()
 class FACTIONS_API AFactionsBoard : public AActor
 {
@@ -23,6 +25,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void HighlightSquares(char squares);
+	void HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> PiecePosition);
 
+	UPROPERTY(EditAnywhere, Category="Board Settings")
+	TArray<ABoardSquare*> Squares;
+
+	UPROPERTY(EditAnywhere, Category="Board Settings")
+	TSubclassOf<ABoardSquare> BP_BoardSquareClass;
+
+private: 
+	UFUNCTION()
+	bool IsValidSquare(int x, int y);
 };

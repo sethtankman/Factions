@@ -9,17 +9,20 @@
 class AFactionsBoard;
 
 /**
- * 
+ *
  */
 UCLASS()
 class FACTIONS_API AFactionsGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	public:
-		// Sets default values for Faction Game Mode
-		AFactionsGameMode();
-		
-		UPROPERTY()
-		AFactionsBoard* FactionsBoard;
+public:
+	// Sets default values for Faction Game Mode
+	AFactionsGameMode();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom Elements")
+	AFactionsBoard *FactionsBoard;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 };

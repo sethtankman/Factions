@@ -16,6 +16,9 @@ ABoardSquare::ABoardSquare()
 		Mesh->SetupAttachment(RootComponent);
 		Mesh->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
 		Mesh->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
+		PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
+		PointLight->SetupAttachment(Mesh);
+		PointLight->SetHiddenInGame(true);
 	}
 }
 
@@ -34,12 +37,14 @@ void ABoardSquare::Tick(float DeltaTime)
 
 void ABoardSquare::BeginMouseOver(UPrimitiveComponent *TouchedComponent)
 {
-	Hide(false);
+	if(IsHidden() == false) {
+		PointLight->SetHiddenInGame(false);
+	}
 }
 
 void ABoardSquare::EndMouseOver(UPrimitiveComponent *TouchedComponent)
 {
-	Hide(true);
+	PointLight->SetHiddenInGame(true);
 }
 
 void ABoardSquare::Hide(bool tf) 

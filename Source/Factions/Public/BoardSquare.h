@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/PointLightComponent.h"
 #include "BoardSquare.generated.h"
 
 UCLASS()
@@ -25,6 +26,9 @@ public:
 
 	UPROPERTY(EditAnywhere) 
 	UStaticMeshComponent* Mesh;
+
+	UPROPERTY(EditAnywhere)
+	UPointLightComponent* PointLight;
 
 	UFUNCTION()
 	void BeginMouseOver(UPrimitiveComponent* TouchedComponent);

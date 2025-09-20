@@ -21,7 +21,9 @@ void AFactionsBoard::BeginPlay()
 	float SquareSize = -104;
 	for(int i = 0; i< 64; i++) {
 		FVector SquarePlacement = FVector((i / 8) * SquareSize, (i % 8) * SquareSize, 0);
-		Squares.Emplace(GetWorld()->SpawnActor<ABoardSquare>(BP_BoardSquareClass, GetActorLocation() + Offset + SquarePlacement, GetActorRotation()));
+		ABoardSquare* Square = GetWorld()->SpawnActor<ABoardSquare>(BP_BoardSquareClass, GetActorLocation() + Offset + SquarePlacement, GetActorRotation());
+		Square->Init(SquarePlacement[0], SquarePlacement[1]);
+		Squares.Emplace(Square);
 	}
 }
 

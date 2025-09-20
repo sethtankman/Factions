@@ -22,7 +22,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom Elements")
 	AFactionsBoard *FactionsBoard;
 
+	UFUNCTION()
+	void SetSelectedPiece(APiece *piece);
+
+	UFUNCTION()
+	APiece* GetSelectedPiece();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+private:
+	APiece *SelectedPiece; 
 };

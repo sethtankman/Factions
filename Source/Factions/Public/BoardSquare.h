@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Templates/Tuple.h"
 #include "GameFramework/Actor.h"
 #include "Components/PointLightComponent.h"
 #include "BoardSquare.generated.h"
@@ -15,6 +16,8 @@ class FACTIONS_API ABoardSquare : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABoardSquare();
+
+	void Init(int32 x, int32 y);
 
 protected:
 	// Called when the game starts or when spawned
@@ -37,6 +40,15 @@ public:
 	void EndMouseOver(UPrimitiveComponent* TouchedComponent);
 
 	UFUNCTION()
+	void SelectSquare(UPrimitiveComponent* TouchedComponent, FKey key);
+
+	UFUNCTION()
 	void Hide(bool tf);
+ 
+	TTuple<int,int> GetCoordinates();
+
+private:
+	int rank;
+	int file;
 
 };

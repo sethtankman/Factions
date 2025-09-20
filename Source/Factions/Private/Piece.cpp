@@ -33,7 +33,7 @@ void APiece::BeginPlay()
 void APiece::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 
 // Called to bind functionality to input
@@ -56,11 +56,11 @@ void APiece::PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey) {
 	if(!IsValid(FactionsGameMode)) {
 		UE_LOG(LogTemp , Display, TEXT("FactionsGameMode not valid"), *Name);
 	}
-	
 	if(!IsValid(FactionsGameMode->FactionsBoard)) {
 		UE_LOG(LogTemp , Display, TEXT("FactionsBoard not valid"), *Name);
 	}
 	FactionsGameMode->FactionsBoard->HighlightSquares(MovesX, MovesY, BoardPosition);
+	FactionsGameMode->SetSelectedPiece(this);
 	FVector CurrentLocation = GetActorLocation();
 	SetActorLocation(CurrentLocation + RaiseHeight);
 }

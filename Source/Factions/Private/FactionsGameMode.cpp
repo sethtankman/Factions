@@ -33,3 +33,13 @@ void AFactionsGameMode::BeginPlay()
         UE_LOG(LogTemp, Warning, TEXT("No FactionsBoard found in level!"));
     }
 }
+
+void AFactionsGameMode::SetSelectedPiece(APiece *piece) 
+{
+    SelectedPiece = piece;
+}
+
+APiece* AFactionsGameMode::GetSelectedPiece()
+{
+    return SelectedPiece;
+}

@@ -19,39 +19,48 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
 	UFUNCTION()
-	void BeginMouseOver(UPrimitiveComponent* TouchedComponent);
+	void BeginMouseOver(UPrimitiveComponent *TouchedComponent);
 
 	UFUNCTION()
-	void EndMouseOver(UPrimitiveComponent* TouchedComponent);
-	
+	void EndMouseOver(UPrimitiveComponent *TouchedComponent);
+
 	UFUNCTION()
-	void PieceSelected(UPrimitiveComponent* TouchedComponent, FKey InKey);
+	void PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey);
 
 	UPROPERTY(EditAnywhere)
 	bool isSelected = false;
 
-	UPROPERTY(EditAnywhere) 
-	UStaticMeshComponent* BaseMesh;
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent *BaseMesh;
 
-	UPROPERTY(EditAnywhere, Category="Piece Settings")
+	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	FVector RaiseHeight;
 
-	UPROPERTY(EditAnywhere, Category="Piece Settings")
+	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	TArray<int> MovesX;
 
-	UPROPERTY(EditAnywhere, Category="Piece Settings")
+	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	TArray<int> MovesY;
 
-	UPROPERTY(EditAnywhere, Category="Piece Settings")
+	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	TArray<int> BoardPosition;
 
-	static APiece* SelectedPiece;
+	static APiece *SelectedPiece;
+
+	UFUNCTION()
+	void MoveToSquare(ABoardSquare *square);
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	FVector TargetLocation;
+	UPROPERTY(VisibleAnywhere)
+	bool Moving = false;
 };

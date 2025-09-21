@@ -86,4 +86,5 @@ void APiece::MoveToSquare(ABoardSquare *square)
 	FactionsGameMode->FactionsBoard->HighlightSquares(MovesX, MovesY, BoardPosition, true);
 	BoardPosition[0] = square->GetCoordinates().Get<0>();
 	BoardPosition[1] = square->GetCoordinates().Get<1>();
+	UE_LOG(LogTemp, Display, TEXT("Coordinates: %d, %d"), BoardPosition[0], BoardPosition[1]);
 }

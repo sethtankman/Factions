@@ -69,6 +69,7 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 		Hide(true);
 		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
 		APiece *SelectedPiece = FactionsGameMode->GetSelectedPiece();
+
 		SelectedPiece->MoveToSquare(this);
 	}
 }

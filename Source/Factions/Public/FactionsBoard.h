@@ -25,7 +25,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> PiecePosition, bool Hide);
+	void HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> PiecePosition);
+
+	void UnHighlightAllSquares();
 
 	UPROPERTY(EditAnywhere, Category = "Board Settings")
 	TArray<ABoardSquare *> Squares;

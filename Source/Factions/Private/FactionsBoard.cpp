@@ -33,7 +33,7 @@ void AFactionsBoard::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AFactionsBoard::HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> PiecePosition, bool Hide)
+void AFactionsBoard::HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> PiecePosition)
 {
 
 	for (int i = 0; i < x.Num(); i++)
@@ -42,7 +42,18 @@ void AFactionsBoard::HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> 
 		int boardPositionY = PiecePosition[1] + y[i];
 		if (IsValidSquare(boardPositionX, boardPositionY))
 		{
-			Squares[(boardPositionX * 8) + boardPositionY]->Hide(Hide);
+			Squares[(boardPositionX * 8) + boardPositionY]->Hide(false);
+		}
+	}
+}
+
+void AFactionsBoard::UnHighlightAllSquares()
+{
+	for (int x = 0; x < 8; x++)
+	{
+		for (int y = 0; y < 8; y++)
+		{
+			Squares[(x * 8) + y]->Hide(true);
 		}
 	}
 }

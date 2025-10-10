@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BoardSquare.h"
+#include "FactionsBoard.h"
 #include "Piece.h"
 #include "Components/BoxComponent.h"
 #include "Templates/Tuple.h"
@@ -69,7 +70,7 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 		Hide(true);
 		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
 		APiece *SelectedPiece = FactionsGameMode->GetSelectedPiece();
-
+		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
 		SelectedPiece->MoveToSquare(this);
 	}
 }

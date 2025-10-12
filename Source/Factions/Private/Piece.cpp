@@ -27,6 +27,7 @@ APiece::APiece()
 void APiece::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 // Called every frame
@@ -72,19 +73,30 @@ void APiece::PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey)
 	{
 		UE_LOG(LogTemp, Display, TEXT("FactionsBoard not valid"), *Name);
 	}
+	FactionsGameMode->SetSelectedPiece(this);
 	FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
 	FactionsGameMode->FactionsBoard->HighlightSquares(MovesX, MovesY, BoardPosition);
-	FactionsGameMode->SetSelectedPiece(this);
 	FVector CurrentLocation = GetActorLocation();
 	SetActorLocation(CurrentLocation + RaiseHeight);
 }
 
 void APiece::MoveToSquare(ABoardSquare *square)
 {
+	if (CurrentSquare != nullptr)
+	{
+		CurrentSquare->SetOccupyingPiece(nullptr); 
+	}
 	TargetLocation = square->GetActorLocation();
 	Moving = true;
 	AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
 	BoardPosition[0] = square->GetCoordinates().Get<0>();
 	BoardPosition[1] = square->GetCoordinates().Get<1>();
+	square->SetOccupyingPiece(this);
+	CurrentSquare = square;
 	UE_LOG(LogTemp, Display, TEXT("Coordinates: %d, %d"), BoardPosition[0], BoardPosition[1]);
+}
+
+FString APiece::GetColor()
+{
+	return Color;
 }

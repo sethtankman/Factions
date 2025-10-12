@@ -58,9 +58,15 @@ public:
 	UFUNCTION()
 	void MoveToSquare(ABoardSquare *square);
 
+	UFUNCTION()
+	FString GetColor();
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	FVector TargetLocation;
 	UPROPERTY(VisibleAnywhere)
 	bool Moving = false;
+	UPROPERTY(EditAnywhere)
+	FString Color;
+	ABoardSquare* CurrentSquare;
 };

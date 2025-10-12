@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FactionsBoard.h"
+#include "FactionsGameMode.h"
 #include "BoardSquare.h"
+#include "kismet/GameplayStatics.h"
 #include <cmath>
 
 // Sets default values
@@ -60,5 +62,24 @@ void AFactionsBoard::UnHighlightAllSquares()
 
 bool AFactionsBoard::IsValidSquare(int x, int y)
 {
-	return x >= 0 && x < 8 && y >= 0 && y < 8;
+	bool inBounds = x >= 0 && x < 8 && y >= 0 && y < 8;
+	if (inBounds) 
+	{
+		ABoardSquare* Square = Squares[(x * 8) + y];
+		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
+		if (Square->GetOccupyingPiece() == nullptr)
+		{
+			return true;
+		} 
+		else if(FactionsGameMode->GetSelectedPiece() != nullptr)
+		{
+			return Square->GetOccupyingPiece()->GetColor() != FactionsGameMode->GetSelectedPiece()->GetColor();
+		}
+	}
+	return false;
+}
+
+TArray<ABoardSquare *> AFactionsBoard::GetSquares()
+{
+	return Squares;
 }

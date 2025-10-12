@@ -30,12 +30,14 @@ public:
 	void UnHighlightAllSquares();
 
 	UPROPERTY(EditAnywhere, Category = "Board Settings")
-	TArray<ABoardSquare *> Squares;
-
-	UPROPERTY(EditAnywhere, Category = "Board Settings")
 	TSubclassOf<ABoardSquare> BP_BoardSquareClass;
+
+	TArray<ABoardSquare *> GetSquares();
 
 private:
 	UFUNCTION()
 	bool IsValidSquare(int x, int y);
+	
+	UPROPERTY(EditAnywhere, Category = "Board Settings")
+	TArray<ABoardSquare *> Squares;
 };

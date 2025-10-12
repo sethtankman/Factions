@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Piece.h"
 #include "Templates/Tuple.h"
 #include "GameFramework/Actor.h"
 #include "Components/PointLightComponent.h"
@@ -12,8 +13,8 @@ UCLASS()
 class FACTIONS_API ABoardSquare : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ABoardSquare();
 
@@ -23,32 +24,38 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere) 
-	UStaticMeshComponent* Mesh;
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent *Mesh;
 
 	UPROPERTY(EditAnywhere)
-	UPointLightComponent* PointLight;
+	UPointLightComponent *PointLight;
 
 	UFUNCTION()
-	void BeginMouseOver(UPrimitiveComponent* TouchedComponent);
+	void BeginMouseOver(UPrimitiveComponent *TouchedComponent);
 
 	UFUNCTION()
-	void EndMouseOver(UPrimitiveComponent* TouchedComponent);
+	void EndMouseOver(UPrimitiveComponent *TouchedComponent);
 
 	UFUNCTION()
-	void SelectSquare(UPrimitiveComponent* TouchedComponent, FKey key);
+	void SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key);
 
 	UFUNCTION()
 	void Hide(bool tf);
- 
-	TTuple<int,int> GetCoordinates();
+
+	UFUNCTION()
+	void SetOccupyingPiece(APiece* piece);
+	
+	UFUNCTION()
+	APiece* GetOccupyingPiece();
+
+	TTuple<int, int> GetCoordinates();
 
 private:
 	int rank;
 	int file;
-
+	APiece* OccupyingPiece;
 };

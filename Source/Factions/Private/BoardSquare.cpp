@@ -80,7 +80,17 @@ void ABoardSquare::Hide(bool tf)
 	SetActorHiddenInGame(tf);
 }
 
+void ABoardSquare::SetOccupyingPiece(APiece* piece)
+{
+	OccupyingPiece = piece;
+}
+
 TTuple<int, int> ABoardSquare::GetCoordinates()
 {
 	return MakeTuple(rank, file);
+}
+
+APiece* ABoardSquare::GetOccupyingPiece()
+{
+	return OccupyingPiece;
 }

@@ -13,22 +13,39 @@ ABoardSquare::ABoardSquare()
 {
 	rank = 0;
 	file = 0;
+	hidden = true;
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	// Our root component will be a sphere that reacts to physics
 	UBoxComponent *BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("RootComponent"));
 	RootComponent = BoxComponent;
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	if (Mesh)
+	Mesh1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh1"));
+	if (Mesh1)
 	{
-		Mesh->SetupAttachment(RootComponent);
-		Mesh->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
-		Mesh->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
-		Mesh->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
-		PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
-		PointLight->SetupAttachment(Mesh);
-		PointLight->SetHiddenInGame(true);
+		Mesh1->SetupAttachment(RootComponent);
+		Mesh1->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
+		Mesh1->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
+		Mesh1->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
 	}
+	Mesh2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh2"));
+	if (Mesh2)
+	{
+		Mesh2->SetupAttachment(RootComponent);
+		Mesh2->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
+		Mesh2->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
+		Mesh2->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
+	}
+	Mesh3 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh3"));
+	if (Mesh3)
+	{
+		Mesh3->SetupAttachment(RootComponent);
+		Mesh3->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
+		Mesh3->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
+		Mesh3->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
+	}
+	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
+	PointLight->SetupAttachment(RootComponent);
+	PointLight->SetHiddenInGame(true);
 }
 
 void ABoardSquare::Init(int32 InRank, int32 InFile)
@@ -41,7 +58,7 @@ void ABoardSquare::Init(int32 InRank, int32 InFile)
 void ABoardSquare::BeginPlay()
 {
 	Super::BeginPlay();
-	Hide(true);
+	Hide(true, "None");
 }
 
 // Called every frame
@@ -52,7 +69,7 @@ void ABoardSquare::Tick(float DeltaTime)
 
 void ABoardSquare::BeginMouseOver(UPrimitiveComponent *TouchedComponent)
 {
-	if (IsHidden() == false)
+	if (hidden == false)
 	{
 		PointLight->SetHiddenInGame(false);
 	}
@@ -65,9 +82,9 @@ void ABoardSquare::EndMouseOver(UPrimitiveComponent *TouchedComponent)
 
 void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 {
-	if (IsHidden() == false)
+	if (hidden == false)
 	{
-		Hide(true);
+		Hide(true, "None");
 		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
 		APiece *SelectedPiece = FactionsGameMode->GetSelectedPiece();
 		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
@@ -75,9 +92,23 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 	}
 }
 
-void ABoardSquare::Hide(bool tf)
+void ABoardSquare::Hide(bool tf, FString color)
 {
-	SetActorHiddenInGame(tf);
+	if(tf) {
+		Mesh1->SetVisibility(false);
+		Mesh2->SetVisibility(false);
+		Mesh3->SetVisibility(false);
+		hidden = true;
+	} else if (color == "green") {
+		Mesh1->SetVisibility(true);
+		hidden = false;
+	} else if (color == "blue") {
+		Mesh2->SetVisibility(true);
+		hidden = false;
+	} else if (color == "red") {
+		Mesh3->SetVisibility(true);
+		hidden = false;
+	}
 }
 
 void ABoardSquare::SetOccupyingPiece(APiece* piece)

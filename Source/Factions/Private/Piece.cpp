@@ -75,7 +75,7 @@ void APiece::PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey)
 	}
 	FactionsGameMode->SetSelectedPiece(this);
 	FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
-	FactionsGameMode->FactionsBoard->HighlightSquares(MovesX, MovesY, BoardPosition);
+	FactionsGameMode->FactionsBoard->HighlightSquares(Movement, BoardPosition);
 	FVector CurrentLocation = GetActorLocation();
 	SetActorLocation(CurrentLocation + RaiseHeight);
 }

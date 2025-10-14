@@ -29,7 +29,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent *Mesh;
+	UStaticMeshComponent *Mesh1;
+	
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent *Mesh2;
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent *Mesh3;
 
 	UPROPERTY(EditAnywhere)
 	UPointLightComponent *PointLight;
@@ -44,7 +50,7 @@ public:
 	void SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key);
 
 	UFUNCTION()
-	void Hide(bool tf);
+	void Hide(bool tf, FString color);
 
 	UFUNCTION()
 	void SetOccupyingPiece(APiece* piece);
@@ -57,5 +63,6 @@ public:
 private:
 	int rank;
 	int file;
+	bool hidden;
 	APiece* OccupyingPiece;
 };

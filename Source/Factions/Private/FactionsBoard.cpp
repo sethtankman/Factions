@@ -35,18 +35,69 @@ void AFactionsBoard::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AFactionsBoard::HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> PiecePosition)
+void AFactionsBoard::HighlightSquares(FPieceMovement Movement, TArray<int> PiecePosition)
 {
-
-	for (int i = 0; i < x.Num(); i++)
-	{
-		int boardPositionX = PiecePosition[0] + x[i];
-		int boardPositionY = PiecePosition[1] + y[i];
-		if (IsValidSquare(boardPositionX, boardPositionY))
+	if(Movement.RayMoveAttack.Num() != 0) {
+		for (int ray = 0; ray < Movement.RayMoveAttack.Num(); ray++) 
 		{
-			Squares[(boardPositionX * 8) + boardPositionY]->Hide(false);
+			for (int distance = 1; distance <= Movement.RayMoveAttack[ray].Z; distance++)
+			{
+				int BoardPositionX = PiecePosition[0] + (Movement.RayMoveAttack[ray].X * distance);
+				int BoardPositionY = PiecePosition[1] + (Movement.RayMoveAttack[ray].Y * distance);
+				if (HighlightSquare(BoardPositionX, BoardPositionY, "green") == false) 
+				{
+					break;
+				}
+			}
 		}
 	}
+	if(Movement.JumpMoveAttack.Num() != 0) {
+		for (int coordinate = 0; coordinate < Movement.JumpMoveAttack.Num(); coordinate++) 
+		{
+			HighlightSquare(PiecePosition[0] + Movement.JumpMoveAttack[coordinate].X, PiecePosition[1] + Movement.JumpMoveAttack[coordinate].Y, "green");
+		}
+	}
+	if(Movement.RayMove.Num() != 0) {
+
+	}
+	if (Movement.JumpMove.Num() != 0) {
+		int boardPositionX = PiecePosition[0] + 0;
+		int boardPositionY = PiecePosition[1] + 0;
+		if (IsValidSquare(boardPositionX, boardPositionY))
+		{
+			Squares[(boardPositionX * 8) + boardPositionY]->Hide(false, "green");
+		}
+	}
+	if (Movement.RayAttack.Num() != 0) {
+	}
+	if (Movement.JumpAttack.Num() != 0) {
+		for (int coordinate = 0; coordinate < Movement.JumpAttack.Num(); coordinate++) 
+		{
+			HighlightSquare(PiecePosition[0] + Movement.JumpAttack[coordinate].X, PiecePosition[1] + Movement.JumpAttack[coordinate].Y, "red");
+		}
+	}
+	if (Movement.Bless.Num() != 0) 
+	{	
+		for (int coordinate = 0; coordinate < Movement.Bless.Num(); coordinate++) 
+		{
+			HighlightSquare(PiecePosition[0] + Movement.Bless[coordinate].X, PiecePosition[1] + Movement.Bless[coordinate].Y, "blue");
+		}
+	}
+	if (Movement.Reanimate.Num() != 0) {
+
+	}
+}
+
+bool AFactionsBoard::HighlightSquare(int BoardPositionX, int BoardPositionY, FString color) 
+{
+	UE_LOG(LogTemp, Display, TEXT("X: %d, Y: %d"), BoardPositionX, BoardPositionY);
+	if (IsValidSquare(BoardPositionX, BoardPositionY))
+	{
+		UE_LOG(LogTemp, Display, TEXT("Valid!"));
+		Squares[(BoardPositionX * 8) + BoardPositionY]->Hide(false, color);
+		return true;
+	}
+	return false;
 }
 
 void AFactionsBoard::UnHighlightAllSquares()
@@ -55,7 +106,7 @@ void AFactionsBoard::UnHighlightAllSquares()
 	{
 		for (int y = 0; y < 8; y++)
 		{
-			Squares[(x * 8) + y]->Hide(true);
+			Squares[(x * 8) + y]->Hide(true, "None");
 		}
 	}
 }

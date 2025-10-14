@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FPieceMovement.h"
 #include "GameFramework/Pawn.h"
 #include "Piece.generated.h"
 
@@ -45,10 +46,7 @@ public:
 	FVector RaiseHeight;
 
 	UPROPERTY(EditAnywhere, Category = "Piece Settings")
-	TArray<int> MovesX;
-
-	UPROPERTY(EditAnywhere, Category = "Piece Settings")
-	TArray<int> MovesY;
+	FPieceMovement Movement;
 
 	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	TArray<int> BoardPosition;

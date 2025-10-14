@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "FPieceMovement.h"
 #include "FactionsBoard.generated.h"
 
 class ABoardSquare;
@@ -25,7 +26,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void HighlightSquares(TArray<int> x, TArray<int> y, TArray<int> PiecePosition);
+	void HighlightSquares(FPieceMovement Movement, TArray<int> PiecePosition);
 
 	void UnHighlightAllSquares();
 
@@ -37,6 +38,8 @@ public:
 private:
 	UFUNCTION()
 	bool IsValidSquare(int x, int y);
+
+	bool HighlightSquare(int BoardPositionX, int BoardPositaionY, FString color);
 	
 	UPROPERTY(EditAnywhere, Category = "Board Settings")
 	TArray<ABoardSquare *> Squares;

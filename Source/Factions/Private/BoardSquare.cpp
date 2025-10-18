@@ -89,6 +89,10 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 		APiece *SelectedPiece = FactionsGameMode->GetSelectedPiece();
 		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
 		SelectedPiece->MoveToSquare(this);
+	} 
+	else if (GetOccupyingPiece() != nullptr) 
+	{
+		GetOccupyingPiece()->PieceSelected();
 	}
 }
 

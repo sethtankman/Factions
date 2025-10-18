@@ -18,8 +18,6 @@ APiece::APiece()
 	if (BaseMesh)
 	{
 		BaseMesh->SetupAttachment(RootComponent);
-		BaseMesh->OnBeginCursorOver.AddDynamic(this, &APiece::BeginMouseOver);
-		BaseMesh->OnClicked.AddDynamic(this, &APiece::PieceSelected);
 	}
 }
 
@@ -49,19 +47,7 @@ void APiece::Tick(float DeltaTime)
 	}
 }
 
-// Called to bind functionality to input
-void APiece::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
-void APiece::EndMouseOver(UPrimitiveComponent *TouchedComponent) {}
-
-void APiece::BeginMouseOver(UPrimitiveComponent *TouchedComponent)
-{
-}
-
-void APiece::PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey)
+void APiece::PieceSelected()
 {
 	FString Name = GetName();
 	UE_LOG(LogTemp, Display, TEXT("%s selected"), *Name);

@@ -23,18 +23,9 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
-
+	
 	UFUNCTION()
-	void BeginMouseOver(UPrimitiveComponent *TouchedComponent);
-
-	UFUNCTION()
-	void EndMouseOver(UPrimitiveComponent *TouchedComponent);
-
-	UFUNCTION()
-	void PieceSelected(UPrimitiveComponent *TouchedComponent, FKey InKey);
+	void PieceSelected();
 
 	UPROPERTY(EditAnywhere)
 	bool isSelected = false;

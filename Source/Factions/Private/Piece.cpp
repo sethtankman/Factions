@@ -88,6 +88,8 @@ void APiece::MoveToSquare(ABoardSquare *square)
 		CurrentSquare->SetOccupyingPiece(nullptr); 
 	}
 	TargetLocation = square->GetActorLocation();
+	if (square->GetOccupyingPiece() != nullptr)
+		square->GetOccupyingPiece()->Destroy();
 	Moving = true;
 	AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
 	BoardPosition[0] = square->GetCoordinates().Get<0>();

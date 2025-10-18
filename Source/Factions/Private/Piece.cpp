@@ -27,7 +27,8 @@ APiece::APiece()
 void APiece::BeginPlay()
 {
 	Super::BeginPlay();
-
+	FTimerHandle MyTimerHandle;
+	GetWorldTimerManager().SetTimer(MyTimerHandle, this, &APiece::SetInitialSquare, 0.2f, false);
 }
 
 // Called every frame
@@ -99,4 +100,18 @@ void APiece::MoveToSquare(ABoardSquare *square)
 FString APiece::GetColor()
 {
 	return Color;
+}
+
+void APiece::SetInitialSquare() 
+{
+	AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
+	UE_LOG(LogTemp, Display, TEXT("Set Initial Square Called"));
+	if (BoardPosition.Num() == 2) {
+		CurrentSquare = FactionsGameMode->FactionsBoard->GetSquares()[(BoardPosition[0] * 8) + BoardPosition[1]];
+		CurrentSquare->SetOccupyingPiece(this);
+	}
+	else 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Board Position not set!"));
+	}
 }

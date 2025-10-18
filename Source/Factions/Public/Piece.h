@@ -66,5 +66,7 @@ private:
 	bool Moving = false;
 	UPROPERTY(EditAnywhere)
 	FString Color;
+	UFUNCTION()
+	void SetInitialSquare();
 	ABoardSquare* CurrentSquare;
 };

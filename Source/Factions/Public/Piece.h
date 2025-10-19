@@ -23,7 +23,7 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
+
 	UFUNCTION()
 	void PieceSelected();
 
@@ -35,6 +35,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	FVector RaiseHeight;
+
+	UPROPERTY(EditAnywhere, Category = "Piece Settings")
+	FIntVector Orientation;
 
 	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	FPieceMovement Movement;
@@ -60,4 +63,7 @@ private:
 	UFUNCTION()
 	void SetInitialSquare();
 	ABoardSquare* CurrentSquare;
+	FPieceMovement OrientedMovement;
+	UFUNCTION()
+	FPieceMovement OrientMovement(FPieceMovement baseMovement);
 };

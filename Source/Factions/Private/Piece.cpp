@@ -19,6 +19,7 @@ APiece::APiece()
 	{
 		BaseMesh->SetupAttachment(RootComponent);
 	}
+	Orientation = FIntVector(1,1,0);
 }
 
 // Called when the game starts or when spawned
@@ -27,6 +28,7 @@ void APiece::BeginPlay()
 	Super::BeginPlay();
 	FTimerHandle MyTimerHandle;
 	GetWorldTimerManager().SetTimer(MyTimerHandle, this, &APiece::SetInitialSquare, 0.2f, false);
+	OrientedMovement = OrientMovement(Movement);
 }
 
 // Called every frame
@@ -62,7 +64,7 @@ void APiece::PieceSelected()
 	}
 	FactionsGameMode->SetSelectedPiece(this);
 	FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
-	FactionsGameMode->FactionsBoard->HighlightSquares(Movement, BoardPosition);
+	FactionsGameMode->FactionsBoard->HighlightSquares(OrientedMovement, BoardPosition);
 	FVector CurrentLocation = GetActorLocation();
 	SetActorLocation(CurrentLocation + RaiseHeight);
 }
@@ -102,4 +104,42 @@ void APiece::SetInitialSquare()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Board Position not set!"));
 	}
+}
+
+FPieceMovement APiece::OrientMovement(FPieceMovement baseMovement)
+{
+	FPieceMovement NewMovement = FPieceMovement();
+	for (int i = 0; i < baseMovement.RayMoveAttack.Num(); i++)
+	{
+		NewMovement.RayMoveAttack.Add(FIntVector(baseMovement.RayMoveAttack[i].X * Orientation.X, baseMovement.RayMoveAttack[i].Y * Orientation.Y, baseMovement.RayMoveAttack[i].Z));
+	}
+	for (int i = 0; i < baseMovement.JumpMoveAttack.Num(); i++)
+	{
+		NewMovement.JumpMoveAttack.Add(FIntVector(baseMovement.JumpMoveAttack[i].X * Orientation.X, baseMovement.JumpMoveAttack[i].Y * Orientation.Y, baseMovement.JumpMoveAttack[i].Z));
+	}
+	for (int i = 0; i < baseMovement.RayMove.Num(); i++)
+	{
+		NewMovement.RayMove.Add(FIntVector(baseMovement.RayMove[i].X * Orientation.X, baseMovement.RayMove[i].Y * Orientation.Y, baseMovement.RayMove[i].Z));
+	}
+	for (int i = 0; i < baseMovement.JumpMove.Num(); i++)
+	{
+		NewMovement.JumpMove.Add(FIntVector(baseMovement.JumpMove[i].X * Orientation.X, baseMovement.JumpMove[i].Y * Orientation.Y, baseMovement.JumpMove[i].Z));
+	}
+	for (int i = 0; i < baseMovement.RayAttack.Num(); i++)
+	{
+		NewMovement.RayAttack.Add(FIntVector(baseMovement.RayAttack[i].X * Orientation.X, baseMovement.RayAttack[i].Y * Orientation.Y, baseMovement.RayAttack[i].Z));
+	}
+	for (int i = 0; i < baseMovement.JumpAttack.Num(); i++)
+	{
+		NewMovement.JumpAttack.Add(FIntVector(baseMovement.JumpAttack[i].X * Orientation.X, baseMovement.JumpAttack[i].Y * Orientation.Y, baseMovement.JumpAttack[i].Z));
+	}
+	for (int i = 0; i < baseMovement.Bless.Num(); i++)
+	{
+		NewMovement.Bless.Add(FIntVector(baseMovement.Bless[i].X * Orientation.X, baseMovement.Bless[i].Y * Orientation.Y, baseMovement.Bless[i].Z));
+	}
+	for (int i = 0; i < baseMovement.Reanimate.Num(); i++)
+	{
+		NewMovement.Reanimate.Add(FIntVector(baseMovement.Reanimate[i].X * Orientation.X, baseMovement.Reanimate[i].Y * Orientation.Y, baseMovement.Reanimate[i].Z));
+	}
+	return NewMovement;
 }

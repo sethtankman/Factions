@@ -19,29 +19,29 @@ ABoardSquare::ABoardSquare()
 	// Our root component will be a sphere that reacts to physics
 	UBoxComponent *BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("RootComponent"));
 	RootComponent = BoxComponent;
-	Mesh1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh1"));
-	if (Mesh1)
+	MoveCaptureMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MoveCaptureMesh"));
+	if (MoveCaptureMesh)
 	{
-		Mesh1->SetupAttachment(RootComponent);
-		Mesh1->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
-		Mesh1->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
-		Mesh1->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
+		MoveCaptureMesh->SetupAttachment(RootComponent);
+		MoveCaptureMesh->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
+		MoveCaptureMesh->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
+		MoveCaptureMesh->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
 	}
-	Mesh2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh2"));
-	if (Mesh2)
+	SpecialMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SpecialMesh"));
+	if (SpecialMesh)
 	{
-		Mesh2->SetupAttachment(RootComponent);
-		Mesh2->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
-		Mesh2->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
-		Mesh2->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
+		SpecialMesh->SetupAttachment(RootComponent);
+		SpecialMesh->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
+		SpecialMesh->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
+		SpecialMesh->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
 	}
-	Mesh3 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh3"));
-	if (Mesh3)
+	RemoteCaptureMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RemoteCaptureMesh"));
+	if (RemoteCaptureMesh)
 	{
-		Mesh3->SetupAttachment(RootComponent);
-		Mesh3->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
-		Mesh3->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
-		Mesh3->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
+		RemoteCaptureMesh->SetupAttachment(RootComponent);
+		RemoteCaptureMesh->OnBeginCursorOver.AddDynamic(this, &ABoardSquare::BeginMouseOver);
+		RemoteCaptureMesh->OnEndCursorOver.AddDynamic(this, &ABoardSquare::EndMouseOver);
+		RemoteCaptureMesh->OnClicked.AddDynamic(this, &ABoardSquare::SelectSquare);
 	}
 	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
 	PointLight->SetupAttachment(RootComponent);
@@ -84,11 +84,19 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 {
 	if (hidden == false)
 	{
-		Hide(true, "None");
 		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
 		APiece *SelectedPiece = FactionsGameMode->GetSelectedPiece();
+		if (MoveCaptureMesh->IsVisible())
+			SelectedPiece->MoveToSquare(this);
+		else if (SpecialMesh->IsVisible())
+			SelectedPiece->PerformSpecial(this);
+		else if (RemoteCaptureMesh->IsVisible())
+		{
+			GetOccupyingPiece()->Destroy();
+			SetOccupyingPiece(nullptr);
+		}
+		Hide(true, "None");
 		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
-		SelectedPiece->MoveToSquare(this);
 	} 
 	else if (GetOccupyingPiece() != nullptr) 
 	{
@@ -99,18 +107,18 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 void ABoardSquare::Hide(bool tf, FString color)
 {
 	if(tf) {
-		Mesh1->SetVisibility(false);
-		Mesh2->SetVisibility(false);
-		Mesh3->SetVisibility(false);
+		MoveCaptureMesh->SetVisibility(false);
+		SpecialMesh->SetVisibility(false);
+		RemoteCaptureMesh->SetVisibility(false);
 		hidden = true;
 	} else if (color == "green") {
-		Mesh1->SetVisibility(true);
+		MoveCaptureMesh->SetVisibility(true);
 		hidden = false;
 	} else if (color == "blue") {
-		Mesh2->SetVisibility(true);
+		SpecialMesh->SetVisibility(true);
 		hidden = false;
 	} else if (color == "red") {
-		Mesh3->SetVisibility(true);
+		RemoteCaptureMesh->SetVisibility(true);
 		hidden = false;
 	}
 }

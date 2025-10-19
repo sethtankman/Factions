@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "FPieceMovement.h"
 #include "GameFramework/Pawn.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "Piece.generated.h"
 
 UCLASS()
@@ -51,6 +53,9 @@ public:
 	void MoveToSquare(ABoardSquare *square);
 
 	UFUNCTION()
+	void PerformSpecial(ABoardSquare *square);
+
+	UFUNCTION()
 	FString GetColor();
 
 private:
@@ -66,4 +71,7 @@ private:
 	FPieceMovement OrientedMovement;
 	UFUNCTION()
 	FPieceMovement OrientMovement(FPieceMovement baseMovement);
+	UPROPERTY(EditAnywhere, Category = "Piece Settings")
+	UNiagaraSystem* ParticleSystem;
+	UNiagaraComponent* SpawnedParticleSystem;
 };

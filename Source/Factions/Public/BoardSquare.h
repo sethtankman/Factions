@@ -29,13 +29,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent *Mesh1;
+	UStaticMeshComponent *MoveCaptureMesh;
 	
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent *Mesh2;
+	UStaticMeshComponent *SpecialMesh;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent *Mesh3;
+	UStaticMeshComponent *RemoteCaptureMesh;
 
 	UPROPERTY(EditAnywhere)
 	UPointLightComponent *PointLight;

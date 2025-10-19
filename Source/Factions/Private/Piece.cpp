@@ -5,6 +5,7 @@
 #include "FactionsGameMode.h"
 #include "Components/CapsuleComponent.h"
 #include "kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
 #include "BoardSquare.h"
 
 // Sets default values
@@ -85,6 +86,29 @@ void APiece::MoveToSquare(ABoardSquare *square)
 	square->SetOccupyingPiece(this);
 	CurrentSquare = square;
 	UE_LOG(LogTemp, Display, TEXT("Coordinates: %d, %d"), BoardPosition[0], BoardPosition[1]);
+}
+
+void APiece::PerformSpecial(ABoardSquare *square)
+{
+	if (ParticleSystem)
+	{
+		if(SpawnedParticleSystem != nullptr) 
+		{
+			SpawnedParticleSystem->Deactivate();
+			SpawnedParticleSystem = nullptr;
+		}
+        SpawnedParticleSystem = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+            GetWorld(),
+            ParticleSystem,
+            square->GetActorLocation(),
+            GetActorRotation(),
+            FVector(1.0f), // Scale
+            true, // Auto Activate
+            true, // Reset if already active
+            ENCPoolMethod::None, // Spawn section
+			false
+        );
+	}
 }
 
 FString APiece::GetColor()

@@ -63,11 +63,14 @@ void APiece::PieceSelected()
 	{
 		UE_LOG(LogTemp, Display, TEXT("FactionsBoard not valid"), *Name);
 	}
-	FactionsGameMode->SetSelectedPiece(this);
-	FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
-	FactionsGameMode->FactionsBoard->HighlightSquares(OrientedMovement, BoardPosition);
-	FVector CurrentLocation = GetActorLocation();
-	SetActorLocation(CurrentLocation + RaiseHeight);
+	if(FactionsGameMode->GetCurrentPlayer() == Color) 
+	{
+		FactionsGameMode->SetSelectedPiece(this);
+		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
+		FactionsGameMode->FactionsBoard->HighlightSquares(OrientedMovement, BoardPosition);
+		FVector CurrentLocation = GetActorLocation();
+		SetActorLocation(CurrentLocation + RaiseHeight);
+	}
 }
 
 void APiece::MoveToSquare(ABoardSquare *square)
@@ -86,6 +89,7 @@ void APiece::MoveToSquare(ABoardSquare *square)
 	square->SetOccupyingPiece(this);
 	CurrentSquare = square;
 	UE_LOG(LogTemp, Display, TEXT("Coordinates: %d, %d"), BoardPosition[0], BoardPosition[1]);
+	FactionsGameMode->StartNextTurn();
 }
 
 void APiece::PerformSpecial(ABoardSquare *square)

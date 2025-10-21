@@ -28,10 +28,17 @@ public:
 	UFUNCTION()
 	APiece* GetSelectedPiece();
 
+	UFUNCTION()
+	FString GetCurrentPlayer();
+
+	UFUNCTION()
+	FString StartNextTurn();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
 	APiece *SelectedPiece; 
+	FString CurrentPlayer;
 };

@@ -63,7 +63,7 @@ void AFactionsBoard::HighlightSquares(FPieceMovement Movement, TArray<int> Piece
 	if (Movement.JumpMove.Num() != 0) {
 		int boardPositionX = PiecePosition[0] + 0;
 		int boardPositionY = PiecePosition[1] + 0;
-		if (IsValidSquare(boardPositionX, boardPositionY))
+		if (IsValidSquare(boardPositionX, boardPositionY, false))
 		{
 			Squares[(boardPositionX * 8) + boardPositionY]->Hide(false, "green");
 		}
@@ -91,7 +91,8 @@ void AFactionsBoard::HighlightSquares(FPieceMovement Movement, TArray<int> Piece
 bool AFactionsBoard::HighlightSquare(int BoardPositionX, int BoardPositionY, FString color) 
 {
 	UE_LOG(LogTemp, Display, TEXT("X: %d, Y: %d"), BoardPositionX, BoardPositionY);
-	if (IsValidSquare(BoardPositionX, BoardPositionY))
+	bool CanSelectFriendlies = (color == "blue");
+	if (IsValidSquare(BoardPositionX, BoardPositionY, CanSelectFriendlies))
 	{
 		UE_LOG(LogTemp, Display, TEXT("Valid!"));
 		Squares[(BoardPositionX * 8) + BoardPositionY]->Hide(false, color);
@@ -111,7 +112,7 @@ void AFactionsBoard::UnHighlightAllSquares()
 	}
 }
 
-bool AFactionsBoard::IsValidSquare(int x, int y)
+bool AFactionsBoard::IsValidSquare(int x, int y, bool CanSelectFriendlies)
 {
 	bool inBounds = x >= 0 && x < 8 && y >= 0 && y < 8;
 	if (inBounds) 
@@ -122,9 +123,11 @@ bool AFactionsBoard::IsValidSquare(int x, int y)
 		{
 			return true;
 		} 
-		else if(FactionsGameMode->GetSelectedPiece() != nullptr)
+		else if(FactionsGameMode->GetSelectedPiece() != nullptr && CanSelectFriendlies == false)
 		{
 			return Square->GetOccupyingPiece()->GetColor() != FactionsGameMode->GetSelectedPiece()->GetColor();
+		} else if (FactionsGameMode->GetSelectedPiece() != nullptr && CanSelectFriendlies == true) {
+			return Square->GetOccupyingPiece()->GetColor() == FactionsGameMode->GetSelectedPiece()->GetColor();
 		}
 	}
 	return false;

@@ -37,7 +37,7 @@ public:
 
 private:
 	UFUNCTION()
-	bool IsValidSquare(int x, int y);
+	bool IsValidSquare(int x, int y, bool CanSelectFriendlies);
 
 	bool HighlightSquare(int BoardPositionX, int BoardPositaionY, FString color);
 	

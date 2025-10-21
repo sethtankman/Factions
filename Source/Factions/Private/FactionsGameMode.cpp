@@ -15,6 +15,7 @@ AFactionsGameMode::AFactionsGameMode()
 void AFactionsGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+    CurrentPlayer = "white"; // TODO: stand-in for some sort of randomization
     TArray<AActor*> FoundActors;
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
     if(FoundActors.Num() > 0) {
@@ -34,6 +35,16 @@ void AFactionsGameMode::BeginPlay()
     }
 }
 
+// TODO: Stand-in for more complex logic
+FString AFactionsGameMode::StartNextTurn()
+{
+    if (CurrentPlayer == "black")
+        CurrentPlayer = "white";
+    else
+        CurrentPlayer = "black";
+    return CurrentPlayer;
+}
+
 void AFactionsGameMode::SetSelectedPiece(APiece *piece) 
 {
     SelectedPiece = piece;
@@ -42,4 +53,9 @@ void AFactionsGameMode::SetSelectedPiece(APiece *piece)
 APiece* AFactionsGameMode::GetSelectedPiece()
 {
     return SelectedPiece;
+}
+
+FString AFactionsGameMode::GetCurrentPlayer()
+{
+    return CurrentPlayer;
 }

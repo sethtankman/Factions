@@ -119,15 +119,18 @@ bool AFactionsBoard::IsValidSquare(int x, int y, bool CanSelectFriendlies)
 	{
 		ABoardSquare* Square = Squares[(x * 8) + y];
 		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-		if (Square->GetOccupyingPiece() == nullptr)
+		if(FactionsGameMode->GetSelectedPiece()->GetColor() == Square->GetBlockAllButColor() || Square->GetBlockAllButColor() == "none")
 		{
-			return true;
-		} 
-		else if(FactionsGameMode->GetSelectedPiece() != nullptr && CanSelectFriendlies == false)
-		{
-			return Square->GetOccupyingPiece()->GetColor() != FactionsGameMode->GetSelectedPiece()->GetColor();
-		} else if (FactionsGameMode->GetSelectedPiece() != nullptr && CanSelectFriendlies == true) {
-			return Square->GetOccupyingPiece()->GetColor() == FactionsGameMode->GetSelectedPiece()->GetColor();
+			if (Square->GetOccupyingPiece() == nullptr)
+			{
+				return true;
+			} 
+			else if(FactionsGameMode->GetSelectedPiece() != nullptr && CanSelectFriendlies == false)
+			{
+				return Square->GetOccupyingPiece()->GetColor() != FactionsGameMode->GetSelectedPiece()->GetColor();
+			} else if (FactionsGameMode->GetSelectedPiece() != nullptr && CanSelectFriendlies == true) {
+				return Square->GetOccupyingPiece()->GetColor() == FactionsGameMode->GetSelectedPiece()->GetColor();
+			}
 		}
 	}
 	return false;

@@ -89,10 +89,9 @@ void APiece::MoveToSquare(ABoardSquare *square)
 	square->SetOccupyingPiece(this);
 	CurrentSquare = square;
 	UE_LOG(LogTemp, Display, TEXT("Coordinates: %d, %d"), BoardPosition[0], BoardPosition[1]);
-	FactionsGameMode->StartNextTurn();
 }
 
-void APiece::PerformSpecial(ABoardSquare *square)
+void APiece::PerformSpecial(ABoardSquare *Square)
 {
 	if (ParticleSystem)
 	{
@@ -101,10 +100,16 @@ void APiece::PerformSpecial(ABoardSquare *square)
 			SpawnedParticleSystem->Deactivate();
 			SpawnedParticleSystem = nullptr;
 		}
+		if(BlessedSquare != nullptr)
+		{
+			BlessedSquare->SetBlockAllButColor("none");
+			BlessedSquare = Square;
+		}
+		Square->SetBlockAllButColor("white");
         SpawnedParticleSystem = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
             GetWorld(),
             ParticleSystem,
-            square->GetActorLocation(),
+            Square->GetActorLocation(),
             GetActorRotation(),
             FVector(1.0f), // Scale
             true, // Auto Activate

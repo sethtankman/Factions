@@ -74,4 +74,5 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	UNiagaraSystem* ParticleSystem;
 	UNiagaraComponent* SpawnedParticleSystem;
+	ABoardSquare* BlessedSquare;
 };

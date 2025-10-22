@@ -97,6 +97,7 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 		}
 		Hide(true, "None");
 		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
+		FactionsGameMode->StartNextTurn();
 	} 
 	else if (GetOccupyingPiece() != nullptr) 
 	{
@@ -123,6 +124,11 @@ void ABoardSquare::Hide(bool tf, FString color)
 	}
 }
 
+void ABoardSquare::SetBlockAllButColor(FString BlockColor)
+{
+	BlockAllButColor = BlockColor;
+}
+
 void ABoardSquare::SetOccupyingPiece(APiece* piece)
 {
 	OccupyingPiece = piece;
@@ -136,4 +142,9 @@ TTuple<int, int> ABoardSquare::GetCoordinates()
 APiece* ABoardSquare::GetOccupyingPiece()
 {
 	return OccupyingPiece;
+}
+
+FString ABoardSquare::GetBlockAllButColor()
+{
+	return BlockAllButColor;
 }

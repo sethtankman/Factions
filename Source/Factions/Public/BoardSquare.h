@@ -54,15 +54,22 @@ public:
 
 	UFUNCTION()
 	void SetOccupyingPiece(APiece* piece);
+
+	UFUNCTION()
+	void SetBlockAllButColor(FString BlockColor);
 	
 	UFUNCTION()
 	APiece* GetOccupyingPiece();
 
 	TTuple<int, int> GetCoordinates();
 
+	UFUNCTION()
+	FString GetBlockAllButColor();
+
 private:
 	int rank;
 	int file;
 	bool hidden;
 	APiece* OccupyingPiece;
+	FString BlockAllButColor = "none";
 };

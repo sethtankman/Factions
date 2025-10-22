@@ -58,19 +58,25 @@ public:
 	UFUNCTION()
 	FString GetColor();
 
-private:
+protected:
+
 	UPROPERTY(VisibleAnywhere)
 	FVector TargetLocation;
+
 	UPROPERTY(VisibleAnywhere)
 	bool Moving = false;
+
 	UPROPERTY(EditAnywhere)
 	FString Color;
+
 	UFUNCTION()
 	void SetInitialSquare();
 	ABoardSquare* CurrentSquare;
 	FPieceMovement OrientedMovement;
+
 	UFUNCTION()
 	FPieceMovement OrientMovement(FPieceMovement baseMovement);
+
 	UPROPERTY(EditAnywhere, Category = "Piece Settings")
 	UNiagaraSystem* ParticleSystem;
 	UNiagaraComponent* SpawnedParticleSystem;

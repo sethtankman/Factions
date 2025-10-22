@@ -7,6 +7,8 @@
 #include "kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "BoardSquare.h"
+#include "Net/UnrealNetwork.h"
+#include "Engine/Engine.h"
 
 // Sets default values
 APiece::APiece()
@@ -27,8 +29,10 @@ APiece::APiece()
 void APiece::BeginPlay()
 {
 	Super::BeginPlay();
-	FTimerHandle MyTimerHandle;
-	GetWorldTimerManager().SetTimer(MyTimerHandle, this, &APiece::SetInitialSquare, 0.2f, false);
+	if (GetLocalRole() == ROLE_Authority) {
+		FTimerHandle MyTimerHandle;
+		GetWorldTimerManager().SetTimer(MyTimerHandle, this, &APiece::SetInitialSquare, 0.2f, false);
+	}
 	OrientedMovement = OrientMovement(Movement);
 }
 
@@ -132,6 +136,7 @@ void APiece::SetInitialSquare()
 	if (BoardPosition.Num() == 2) {
 		CurrentSquare = FactionsGameMode->FactionsBoard->GetSquares()[(BoardPosition[0] * 8) + BoardPosition[1]];
 		CurrentSquare->SetOccupyingPiece(this);
+		OnCurrentSquareSet();
 	}
 	else 
 	{

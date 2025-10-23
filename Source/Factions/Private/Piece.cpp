@@ -7,6 +7,7 @@
 #include "kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "BoardSquare.h"
+#include "FactionsPlayerController.h"
 #include "Net/UnrealNetwork.h"
 #include "Engine/Engine.h"
 
@@ -56,6 +57,9 @@ void APiece::Tick(float DeltaTime)
 
 void APiece::PieceSelected()
 {
+	AFactionsPlayerController* PlayerController = Cast<AFactionsPlayerController>(GetController());
+	if(PlayerController && PlayerController->GetPlayerColor() != Color) // You can only select your own color pieces.
+		return;
 	FString Name = GetName();
 	UE_LOG(LogTemp, Display, TEXT("%s selected"), *Name);
 	AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
@@ -136,7 +140,7 @@ void APiece::SetInitialSquare()
 	if (BoardPosition.Num() == 2) {
 		CurrentSquare = FactionsGameMode->FactionsBoard->GetSquares()[(BoardPosition[0] * 8) + BoardPosition[1]];
 		CurrentSquare->SetOccupyingPiece(this);
-		OnCurrentSquareSet();
+		// OnCurrentSquareSet(); // TODO: For syncing in multiplayer
 	}
 	else 
 	{

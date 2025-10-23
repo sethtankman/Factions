@@ -16,4 +16,10 @@ class FACTIONS_API AFactionsPlayerController : public APlayerController
 	public:
 		// Sets default values for Faction Game Mode
 		AFactionsPlayerController();
+
+		UFUNCTION()
+		FString GetPlayerColor();
+	private:
+		UPROPERTY(EditAnywhere)
+		FString PlayerColor;
 };

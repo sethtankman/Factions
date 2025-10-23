@@ -5,10 +5,12 @@
 #include "FactionsBoard.h"
 #include "FactionsPlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "FactionsPawn.h"
 
 AFactionsGameMode::AFactionsGameMode()
 {
     PlayerControllerClass = AFactionsPlayerController::StaticClass();
+    DefaultPawnClass = AFactionsPawn::StaticClass();
 }
 
 // Called when the game starts or when spawned

@@ -9,6 +9,9 @@ AFactionsPawn::AFactionsPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	RootComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
+	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PlayerCamera"));
+	PlayerCamera->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -30,5 +33,6 @@ void AFactionsPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// PlayerInputComponent->
 }
 

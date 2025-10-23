@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Camera/CameraComponent.h"
 #include "FactionsPawn.generated.h"
 
 UCLASS()
@@ -26,4 +27,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+	UPROPERTY(EditAnywhere)
+	UCameraComponent* PlayerCamera;
 };

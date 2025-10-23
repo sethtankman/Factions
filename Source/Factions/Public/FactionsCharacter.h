@@ -37,6 +37,8 @@ public:
 	// Sets default values for this character's properties
 	AFactionsCharacter();
 
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -45,12 +47,24 @@ protected:
 	virtual void NotifyControllerChanged() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
+	UPROPERTY(ReplicatedUsing = OnRep_PlayerColor) 
+	FString PlayerColor;
+	 
+	UFUNCTION()
+	void OnRep_PlayerColor();
+
+	void OnPlayerColorUpdate();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void SetColor(FString Color);
 	
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+
+	FString GetColor() const { return PlayerColor; }
 
 };

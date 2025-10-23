@@ -4,11 +4,19 @@
 #include "FactionsGameMode.h"
 #include "FactionsBoard.h"
 #include "FactionsPlayerController.h"
+#include "FactionsCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 AFactionsGameMode::AFactionsGameMode()
 {
     PlayerControllerClass = AFactionsPlayerController::StaticClass();
+    ColorAssignIndex = 0;
+    AllColors = {
+        TEXT("white"),
+        TEXT("black"),
+        TEXT("red"),
+        TEXT("blue")
+    };
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +43,24 @@ void AFactionsGameMode::BeginPlay()
     }
 }
 
+void AFactionsGameMode::PostLogin(APlayerController* NewPlayer)
+{
+    Super::PostLogin(NewPlayer);
+
+    if (NewPlayer)
+    {
+        APawn* ControlledPawn = NewPlayer->GetPawn();
+        if (ControlledPawn)
+        {
+            AFactionsCharacter* MyCharacter = Cast<AFactionsCharacter>(ControlledPawn);
+            if (MyCharacter)
+            {
+                MyCharacter->SetColor(AssignMyColor());
+            }
+        }
+    }
+}
+
 // TODO: Stand-in for more complex logic
 FString AFactionsGameMode::StartNextTurn()
 {
@@ -48,6 +74,14 @@ FString AFactionsGameMode::StartNextTurn()
 void AFactionsGameMode::SetSelectedPiece(APiece *piece) 
 {
     SelectedPiece = piece;
+}
+
+FString AFactionsGameMode::AssignMyColor()
+{
+    UE_LOG(LogTemp, Warning, TEXT("Color Assign index %d"), ColorAssignIndex);
+    FString AssignedColor = AllColors[ColorAssignIndex];
+    ColorAssignIndex++;
+    return AssignedColor;
 }
 
 APiece* AFactionsGameMode::GetSelectedPiece()

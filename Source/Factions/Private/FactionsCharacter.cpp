@@ -2,12 +2,16 @@
 
 
 #include "FactionsCharacter.h"
+#include "FactionsGameMode.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Net/UnrealNetwork.h"
+#include "Engine/Engine.h"
 #include "Engine/LocalPlayer.h"
 
 // Sets default values
@@ -16,13 +20,9 @@ AFactionsCharacter::AFactionsCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Set size for collision capsule
-	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
-
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
-	FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
@@ -31,7 +31,8 @@ AFactionsCharacter::AFactionsCharacter()
 	Mesh1P->SetupAttachment(FirstPersonCameraComponent);
 	Mesh1P->bCastDynamicShadow = false;
 	Mesh1P->CastShadow = false;
-	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
+	PlayerColor = "green";
+	UE_LOG(LogTemp, Display, TEXT("Player color is green"));
 }
 
 // Called when the game starts or when spawned
@@ -39,6 +40,16 @@ void AFactionsCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if(GetLocalRole() == ROLE_Authority) 
+	{
+		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
+		if (!IsValid(FactionsGameMode))
+		{
+			UE_LOG(LogTemp, Display, TEXT("FactionsGameMode not valid"));
+			return;
+		}
+		SetColor(FactionsGameMode->AssignMyColor());
+	}
 }
 
 // Called every frame
@@ -93,3 +104,33 @@ void AFactionsCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void AFactionsCharacter::OnRep_PlayerColor()
+{
+	OnPlayerColorUpdate();
+}
+
+void AFactionsCharacter::OnPlayerColorUpdate()
+{
+	if (IsLocallyControlled())
+	{
+	    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, PlayerColor);
+	}
+	 
+	//Server-specific functionality
+	if (GetLocalRole() == ROLE_Authority)
+	{
+	    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, PlayerColor);
+	}
+}
+
+void AFactionsCharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	 
+    //Replicate current health.
+	DOREPLIFETIME(AFactionsCharacter, PlayerColor);
+}
+
+void AFactionsCharacter::SetColor(FString Color) {
+	PlayerColor = Color;
+}

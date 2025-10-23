@@ -19,6 +19,8 @@ public:
 	// Sets default values for Faction Game Mode
 	AFactionsGameMode();
 
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom Elements")
 	AFactionsBoard *FactionsBoard;
 
@@ -34,11 +36,20 @@ public:
 	UFUNCTION()
 	FString StartNextTurn();
 
+	UFUNCTION()
+	FString AssignMyColor();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
-	APiece *SelectedPiece; 
+	UPROPERTY()
+	APiece *SelectedPiece;
+	UPROPERTY() 
 	FString CurrentPlayer;
+	UPROPERTY()
+	TArray<FString> AllColors;
+
+	int ColorAssignIndex = 0;
 };

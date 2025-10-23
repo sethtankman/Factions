@@ -45,7 +45,7 @@ void AFactionsBoard::HighlightSquares(FPieceMovement Movement, TArray<int> Piece
 			{
 				int BoardPositionX = PiecePosition[0] + (Movement.RayMoveAttack[ray].X * distance);
 				int BoardPositionY = PiecePosition[1] + (Movement.RayMoveAttack[ray].Y * distance);
-				if (HighlightSquare(BoardPositionX, BoardPositionY, "green") == false) 
+				if (HighlightSquare(BoardPositionX, BoardPositionY, FColor::Green) == false) 
 				{
 					break;
 				}
@@ -55,7 +55,7 @@ void AFactionsBoard::HighlightSquares(FPieceMovement Movement, TArray<int> Piece
 	if(Movement.JumpMoveAttack.Num() != 0) {
 		for (int coordinate = 0; coordinate < Movement.JumpMoveAttack.Num(); coordinate++) 
 		{
-			HighlightSquare(PiecePosition[0] + Movement.JumpMoveAttack[coordinate].X, PiecePosition[1] + Movement.JumpMoveAttack[coordinate].Y, "green");
+			HighlightSquare(PiecePosition[0] + Movement.JumpMoveAttack[coordinate].X, PiecePosition[1] + Movement.JumpMoveAttack[coordinate].Y, FColor::Green);
 		}
 	}
 	if(Movement.RayMove.Num() != 0) {
@@ -66,7 +66,7 @@ void AFactionsBoard::HighlightSquares(FPieceMovement Movement, TArray<int> Piece
 		int boardPositionY = PiecePosition[1] + 0;
 		if (IsValidSquare(boardPositionX, boardPositionY, false))
 		{
-			Squares[(boardPositionX * 8) + boardPositionY]->Hide(false, "green");
+			Squares[(boardPositionX * 8) + boardPositionY]->Hide(false, FColor::Green);
 		}
 	}
 	if (Movement.RayAttack.Num() != 0) {
@@ -74,14 +74,14 @@ void AFactionsBoard::HighlightSquares(FPieceMovement Movement, TArray<int> Piece
 	if (Movement.JumpAttack.Num() != 0) {
 		for (int coordinate = 0; coordinate < Movement.JumpAttack.Num(); coordinate++) 
 		{
-			HighlightSquare(PiecePosition[0] + Movement.JumpAttack[coordinate].X, PiecePosition[1] + Movement.JumpAttack[coordinate].Y, "red");
+			HighlightSquare(PiecePosition[0] + Movement.JumpAttack[coordinate].X, PiecePosition[1] + Movement.JumpAttack[coordinate].Y, FColor::Red);
 		}
 	}
 	if (Movement.Bless.Num() != 0) 
 	{	
 		for (int coordinate = 0; coordinate < Movement.Bless.Num(); coordinate++) 
 		{
-			HighlightSquare(PiecePosition[0] + Movement.Bless[coordinate].X, PiecePosition[1] + Movement.Bless[coordinate].Y, "blue");
+			HighlightSquare(PiecePosition[0] + Movement.Bless[coordinate].X, PiecePosition[1] + Movement.Bless[coordinate].Y, FColor::Blue);
 		}
 	}
 	if (Movement.Reanimate.Num() != 0) {
@@ -89,10 +89,10 @@ void AFactionsBoard::HighlightSquares(FPieceMovement Movement, TArray<int> Piece
 	}
 }
 
-bool AFactionsBoard::HighlightSquare(int BoardPositionX, int BoardPositionY, FString color) 
+bool AFactionsBoard::HighlightSquare(int BoardPositionX, int BoardPositionY, FColor color) 
 {
 	UE_LOG(LogTemp, Display, TEXT("X: %d, Y: %d"), BoardPositionX, BoardPositionY);
-	bool CanSelectFriendlies = (color == "blue");
+	bool CanSelectFriendlies = (color == FColor::Blue);
 	if (IsValidSquare(BoardPositionX, BoardPositionY, CanSelectFriendlies))
 	{
 		UE_LOG(LogTemp, Display, TEXT("Valid!"));
@@ -108,7 +108,7 @@ void AFactionsBoard::UnHighlightAllSquares()
 	{
 		for (int y = 0; y < 8; y++)
 		{
-			Squares[(x * 8) + y]->Hide(true, "None");
+			Squares[(x * 8) + y]->Hide(true, FColor::Transparent);
 		}
 	}
 }
@@ -120,7 +120,7 @@ bool AFactionsBoard::IsValidSquare(int x, int y, bool CanSelectFriendlies)
 	{
 		ABoardSquare* Square = Squares[(x * 8) + y];
 		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-		if(FactionsGameMode->GetSelectedPiece()->GetColor() == Square->GetBlockAllButColor() || Square->GetBlockAllButColor() == "none")
+		if(FactionsGameMode->GetSelectedPiece()->GetColor() == Square->GetBlockAllButColor() || Square->GetBlockAllButColor() == FColor::Transparent)
 		{
 			if (Square->GetOccupyingPiece() == nullptr)
 			{

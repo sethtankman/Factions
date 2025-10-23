@@ -10,7 +10,7 @@ AFactionsPlayerController::AFactionsPlayerController()
     bEnableMouseOverEvents = true;
 }
 
-FString AFactionsPlayerController::GetPlayerColor()
+FColor AFactionsPlayerController::GetPlayerColor()
 {
     return PlayerColor;
 }

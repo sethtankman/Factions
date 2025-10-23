@@ -12,10 +12,10 @@ AFactionsGameMode::AFactionsGameMode()
     PlayerControllerClass = AFactionsPlayerController::StaticClass();
     ColorAssignIndex = 0;
     AllColors = {
-        TEXT("white"),
-        TEXT("black"),
-        TEXT("red"),
-        TEXT("blue")
+        FColor::White,
+        FColor::Black,
+        FColor::Red,
+        FColor::Blue
     };
 }
 
@@ -23,7 +23,7 @@ AFactionsGameMode::AFactionsGameMode()
 void AFactionsGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-    CurrentPlayer = "white"; // TODO: stand-in for some sort of randomization
+    CurrentPlayer = FColor::White; // TODO: stand-in for some sort of randomization
     TArray<AActor*> FoundActors;
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
     if(FoundActors.Num() > 0) {
@@ -62,12 +62,12 @@ void AFactionsGameMode::PostLogin(APlayerController* NewPlayer)
 }
 
 // TODO: Stand-in for more complex logic
-FString AFactionsGameMode::StartNextTurn()
+FColor AFactionsGameMode::StartNextTurn()
 {
-    if (CurrentPlayer == "black")
-        CurrentPlayer = "white";
+    if (CurrentPlayer == FColor::Black)
+        CurrentPlayer = FColor::White;
     else
-        CurrentPlayer = "black";
+        CurrentPlayer = FColor::Black;
     return CurrentPlayer;
 }
 
@@ -76,10 +76,10 @@ void AFactionsGameMode::SetSelectedPiece(APiece *piece)
     SelectedPiece = piece;
 }
 
-FString AFactionsGameMode::AssignMyColor()
+FColor AFactionsGameMode::AssignMyColor()
 {
     UE_LOG(LogTemp, Warning, TEXT("Color Assign index %d"), ColorAssignIndex);
-    FString AssignedColor = AllColors[ColorAssignIndex];
+    FColor AssignedColor = AllColors[ColorAssignIndex];
     ColorAssignIndex++;
     return AssignedColor;
 }
@@ -89,7 +89,7 @@ APiece* AFactionsGameMode::GetSelectedPiece()
     return SelectedPiece;
 }
 
-FString AFactionsGameMode::GetCurrentPlayer()
+FColor AFactionsGameMode::GetCurrentPlayer()
 {
     return CurrentPlayer;
 }

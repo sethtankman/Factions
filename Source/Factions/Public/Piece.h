@@ -56,7 +56,7 @@ public:
 	void PerformSpecial(ABoardSquare *square);
 
 	UFUNCTION()
-	FString GetColor();
+	FColor GetColor();
 
 protected:
 
@@ -66,8 +66,8 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	bool Moving = false;
 
-	UPROPERTY(EditAnywhere)
-	FString Color;
+	UPROPERTY(EditAnywhere, Category = "Piece Settings")
+	FColor Color;
 
 	UFUNCTION()
 	void SetInitialSquare();

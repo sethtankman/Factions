@@ -39,7 +39,7 @@ private:
 	UFUNCTION()
 	bool IsValidSquare(int x, int y, bool CanSelectFriendlies);
 
-	bool HighlightSquare(int BoardPositionX, int BoardPositaionY, FString color);
+	bool HighlightSquare(int BoardPositionX, int BoardPositaionY, FColor color);
 	
 	UPROPERTY(EditAnywhere, Category = "Board Settings")
 	TArray<ABoardSquare *> Squares;

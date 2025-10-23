@@ -18,8 +18,8 @@ class FACTIONS_API AFactionsPlayerController : public APlayerController
 		AFactionsPlayerController();
 
 		UFUNCTION()
-		FString GetPlayerColor();
+		FColor GetPlayerColor();
 	private:
 		UPROPERTY(EditAnywhere)
-		FString PlayerColor;
+		FColor PlayerColor;
 };

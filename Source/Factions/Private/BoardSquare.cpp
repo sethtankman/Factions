@@ -58,7 +58,7 @@ void ABoardSquare::Init(int32 InRank, int32 InFile)
 void ABoardSquare::BeginPlay()
 {
 	Super::BeginPlay();
-	Hide(true, "None");
+	Hide(true, FColor::Transparent);
 }
 
 // Called every frame
@@ -95,7 +95,7 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 			GetOccupyingPiece()->Destroy();
 			SetOccupyingPiece(nullptr);
 		}
-		Hide(true, "None");
+		Hide(true, FColor::Transparent);
 		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
 		FactionsGameMode->StartNextTurn();
 	} 
@@ -105,26 +105,26 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 	}
 }
 
-void ABoardSquare::Hide(bool tf, FString color)
+void ABoardSquare::Hide(bool tf, FColor color)
 {
 	if(tf) {
 		MoveCaptureMesh->SetVisibility(false);
 		SpecialMesh->SetVisibility(false);
 		RemoteCaptureMesh->SetVisibility(false);
 		hidden = true;
-	} else if (color == "green") {
+	} else if (color == FColor::Green) {
 		MoveCaptureMesh->SetVisibility(true);
 		hidden = false;
-	} else if (color == "blue") {
+	} else if (color == FColor::Blue) {
 		SpecialMesh->SetVisibility(true);
 		hidden = false;
-	} else if (color == "red") {
+	} else if (color == FColor::Red) {
 		RemoteCaptureMesh->SetVisibility(true);
 		hidden = false;
 	}
 }
 
-void ABoardSquare::SetBlockAllButColor(FString BlockColor)
+void ABoardSquare::SetBlockAllButColor(FColor BlockColor)
 {
 	BlockAllButColor = BlockColor;
 }
@@ -144,7 +144,7 @@ APiece* ABoardSquare::GetOccupyingPiece()
 	return OccupyingPiece;
 }
 
-FString ABoardSquare::GetBlockAllButColor()
+FColor ABoardSquare::GetBlockAllButColor()
 {
 	return BlockAllButColor;
 }

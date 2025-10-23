@@ -50,13 +50,13 @@ public:
 	void SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key);
 
 	UFUNCTION()
-	void Hide(bool tf, FString color);
+	void Hide(bool tf, FColor color);
 
 	UFUNCTION()
 	void SetOccupyingPiece(APiece* piece);
 
 	UFUNCTION()
-	void SetBlockAllButColor(FString BlockColor);
+	void SetBlockAllButColor(FColor BlockColor);
 	
 	UFUNCTION()
 	APiece* GetOccupyingPiece();
@@ -64,12 +64,12 @@ public:
 	TTuple<int, int> GetCoordinates();
 
 	UFUNCTION()
-	FString GetBlockAllButColor();
+	FColor GetBlockAllButColor();
 
 private:
 	int rank;
 	int file;
 	bool hidden;
 	APiece* OccupyingPiece;
-	FString BlockAllButColor = "none";
+	FColor BlockAllButColor = FColor::Transparent;
 };

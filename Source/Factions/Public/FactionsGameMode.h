@@ -31,13 +31,13 @@ public:
 	APiece* GetSelectedPiece();
 
 	UFUNCTION()
-	FString GetCurrentPlayer();
+	FColor GetCurrentPlayer();
 
 	UFUNCTION()
-	FString StartNextTurn();
+	FColor StartNextTurn();
 
 	UFUNCTION()
-	FString AssignMyColor();
+	FColor AssignMyColor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -47,9 +47,9 @@ private:
 	UPROPERTY()
 	APiece *SelectedPiece;
 	UPROPERTY() 
-	FString CurrentPlayer;
+	FColor CurrentPlayer;
 	UPROPERTY()
-	TArray<FString> AllColors;
+	TArray<FColor> AllColors;
 
 	int ColorAssignIndex = 0;
 };

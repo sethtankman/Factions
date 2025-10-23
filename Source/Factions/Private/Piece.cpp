@@ -110,10 +110,10 @@ void APiece::PerformSpecial(ABoardSquare *Square)
 		}
 		if(BlessedSquare != nullptr)
 		{
-			BlessedSquare->SetBlockAllButColor("none");
+			BlessedSquare->SetBlockAllButColor(FColor::Transparent);
 			BlessedSquare = Square;
 		}
-		Square->SetBlockAllButColor("white");
+		Square->SetBlockAllButColor(FColor::White);
         SpawnedParticleSystem = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
             GetWorld(),
             ParticleSystem,
@@ -128,7 +128,7 @@ void APiece::PerformSpecial(ABoardSquare *Square)
 	}
 }
 
-FString APiece::GetColor()
+FColor APiece::GetColor()
 {
 	return Color;
 }

@@ -48,7 +48,7 @@ protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
 	UPROPERTY(ReplicatedUsing = OnRep_PlayerColor) 
-	FString PlayerColor;
+	FColor PlayerColor;
 	 
 	UFUNCTION()
 	void OnRep_PlayerColor();
@@ -59,12 +59,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void SetColor(FString Color);
+	void SetColor(FColor Color);
 	
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
-	FString GetColor() const { return PlayerColor; }
+	FColor GetColor() const { return PlayerColor; }
 
 };

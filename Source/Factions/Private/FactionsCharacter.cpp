@@ -31,8 +31,6 @@ AFactionsCharacter::AFactionsCharacter()
 	Mesh1P->SetupAttachment(FirstPersonCameraComponent);
 	Mesh1P->bCastDynamicShadow = false;
 	Mesh1P->CastShadow = false;
-	PlayerColor = "green";
-	UE_LOG(LogTemp, Display, TEXT("Player color is green"));
 }
 
 // Called when the game starts or when spawned
@@ -113,13 +111,13 @@ void AFactionsCharacter::OnPlayerColorUpdate()
 {
 	if (IsLocallyControlled())
 	{
-	    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, PlayerColor);
+	    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, PlayerColor.ToString());
 	}
 	 
 	//Server-specific functionality
 	if (GetLocalRole() == ROLE_Authority)
 	{
-	    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, PlayerColor);
+	    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, PlayerColor.ToString());
 	}
 }
 
@@ -131,6 +129,6 @@ void AFactionsCharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProperty>& 
 	DOREPLIFETIME(AFactionsCharacter, PlayerColor);
 }
 
-void AFactionsCharacter::SetColor(FString Color) {
+void AFactionsCharacter::SetColor(FColor Color) {
 	PlayerColor = Color;
 }

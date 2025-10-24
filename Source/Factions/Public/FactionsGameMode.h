@@ -7,6 +7,8 @@
 #include "FactionsGameMode.generated.h"
 
 class AFactionsBoard;
+class AFactionsCharacter;
+class APiece;
 
 /**
  *
@@ -31,7 +33,7 @@ public:
 	APiece* GetSelectedPiece();
 
 	UFUNCTION()
-	FColor GetCurrentPlayer();
+	FColor GetCurrentPlayerColor();
 
 	UFUNCTION()
 	FColor StartNextTurn();
@@ -47,9 +49,11 @@ private:
 	UPROPERTY()
 	APiece *SelectedPiece;
 	UPROPERTY() 
-	FColor CurrentPlayer;
+	FColor CurrentPlayerColor;
 	UPROPERTY()
 	TArray<FColor> AllColors;
+	UPROPERTY()
+	TArray<AFactionsCharacter*> Players;
 
 	int ColorAssignIndex = 0;
 };

@@ -23,7 +23,7 @@ AFactionsGameMode::AFactionsGameMode()
 void AFactionsGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-    CurrentPlayer = FColor::White; // TODO: stand-in for some sort of randomization
+    CurrentPlayerColor = FColor::White; // TODO: stand-in for some sort of randomization
     TArray<AActor*> FoundActors;
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
     if(FoundActors.Num() > 0) {
@@ -56,6 +56,7 @@ void AFactionsGameMode::PostLogin(APlayerController* NewPlayer)
             if (MyCharacter)
             {
                 MyCharacter->SetColor(AssignMyColor());
+                Players.Add(MyCharacter);
             }
         }
     }
@@ -64,11 +65,15 @@ void AFactionsGameMode::PostLogin(APlayerController* NewPlayer)
 // TODO: Stand-in for more complex logic
 FColor AFactionsGameMode::StartNextTurn()
 {
-    if (CurrentPlayer == FColor::Black)
-        CurrentPlayer = FColor::White;
+    if (CurrentPlayerColor == FColor::Black)
+        CurrentPlayerColor = FColor::White;
     else
-        CurrentPlayer = FColor::Black;
-    return CurrentPlayer;
+        CurrentPlayerColor = FColor::Black;
+    for(AFactionsCharacter* Player : Players)
+    {
+        Player->SetMyTurn(Player->GetColor() == CurrentPlayerColor);
+    }
+    return CurrentPlayerColor;
 }
 
 void AFactionsGameMode::SetSelectedPiece(APiece *piece) 
@@ -89,7 +94,7 @@ APiece* AFactionsGameMode::GetSelectedPiece()
     return SelectedPiece;
 }
 
-FColor AFactionsGameMode::GetCurrentPlayer()
+FColor AFactionsGameMode::GetCurrentPlayerColor()
 {
-    return CurrentPlayer;
+    return CurrentPlayerColor;
 }

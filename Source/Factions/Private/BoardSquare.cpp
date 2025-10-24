@@ -110,12 +110,24 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 			if(Pawn)
 			{
 				AFactionsCharacter* FC = Cast<AFactionsCharacter>(Pawn);
-				if(FC->GetColor() == GetOccupyingPiece()->GetColor())
+				if(FC->IsMyTurn() && FC->GetColor() == GetOccupyingPiece()->GetColor())
 				{
 					GetOccupyingPiece()->PieceSelected();
+				} else {
+					FString Message = FString::Printf(TEXT("FC->IsMyTurn() = %d, FC Color = %s, OcPieceColor = %s"), FC->IsMyTurn(), *FC->GetColor().ToString(), *GetOccupyingPiece()->GetColor().ToString());
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, Message);
 				}
+			} else {
+				FString Message = FString::Printf(TEXT("No Pawn"));
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, Message);
 			}
+		} else {
+			FString Message = FString::Printf(TEXT("No Controller"));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, Message);
 		}
+	} else {
+		FString Message = FString::Printf(TEXT("No Occupying Piece!"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, Message);
 	}
 }
 

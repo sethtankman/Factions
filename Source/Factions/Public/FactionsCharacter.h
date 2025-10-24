@@ -55,9 +55,19 @@ protected:
 
 	void OnPlayerColorUpdate();
 
+	UPROPERTY(ReplicatedUsing = OnRep_MyTurn)
+	bool MyTurn;
+
+	UFUNCTION()
+	void OnRep_MyTurn();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	bool IsMyTurn();
+
+	void SetMyTurn(bool MyTurn);
 
 	void SetColor(FColor Color);
 	

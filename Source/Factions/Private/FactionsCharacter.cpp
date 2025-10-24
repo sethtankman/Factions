@@ -98,6 +98,12 @@ void AFactionsCharacter::OnRep_PlayerColor()
 	OnPlayerColorUpdate();
 }
 
+void AFactionsCharacter::OnRep_MyTurn()
+{
+	FString Message = FString::Printf(TEXT("%s isTurn = %d"), *GetFName().ToString(), MyTurn);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, PlayerColor.ToString());
+}
+
 void AFactionsCharacter::OnPlayerColorUpdate()
 {
 	if (IsLocallyControlled())
@@ -118,6 +124,16 @@ void AFactionsCharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProperty>& 
 	 
     //Replicate current health.
 	DOREPLIFETIME(AFactionsCharacter, PlayerColor);
+}
+
+bool AFactionsCharacter::IsMyTurn()
+{
+	return MyTurn;
+}
+
+void AFactionsCharacter::SetMyTurn(bool Turn)
+{
+	MyTurn = Turn;
 }
 
 void AFactionsCharacter::SetColor(FColor Color) {

@@ -71,7 +71,7 @@ void APiece::PieceSelected()
 	{
 		UE_LOG(LogTemp, Display, TEXT("FactionsBoard not valid"), *Name);
 	}
-	if(FactionsGameMode->GetCurrentPlayer() == Color) 
+	if(FactionsGameMode->GetCurrentPlayerColor() == Color) 
 	{
 		FactionsGameMode->SetSelectedPiece(this);
 		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();

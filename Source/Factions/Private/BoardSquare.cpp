@@ -3,10 +3,12 @@
 #include "BoardSquare.h"
 #include "FactionsBoard.h"
 #include "Piece.h"
+#include "FactionsCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Templates/Tuple.h"
 #include "FactionsGameMode.h"
 #include "kismet/GameplayStatics.h"
+#include "GameFramework/Character.h"
 
 // Sets default values
 ABoardSquare::ABoardSquare()
@@ -101,7 +103,19 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 	} 
 	else if (GetOccupyingPiece() != nullptr) 
 	{
-		GetOccupyingPiece()->PieceSelected();
+		APlayerController* Controller = GetWorld()->GetFirstPlayerController();
+		if(Controller)
+		{
+			APawn* Pawn = Controller->GetPawn();
+			if(Pawn)
+			{
+				AFactionsCharacter* FC = Cast<AFactionsCharacter>(Pawn);
+				if(FC->GetColor() == GetOccupyingPiece()->GetColor())
+				{
+					GetOccupyingPiece()->PieceSelected();
+				}
+			}
+		}
 	}
 }
 

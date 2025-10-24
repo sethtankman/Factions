@@ -37,17 +37,6 @@ AFactionsCharacter::AFactionsCharacter()
 void AFactionsCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	if(GetLocalRole() == ROLE_Authority) 
-	{
-		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-		if (!IsValid(FactionsGameMode))
-		{
-			UE_LOG(LogTemp, Display, TEXT("FactionsGameMode not valid"));
-			return;
-		}
-		SetColor(FactionsGameMode->AssignMyColor());
-	}
 }
 
 // Called every frame
@@ -130,5 +119,6 @@ void AFactionsCharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProperty>& 
 }
 
 void AFactionsCharacter::SetColor(FColor Color) {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, Color.ToString());
 	PlayerColor = Color;
 }

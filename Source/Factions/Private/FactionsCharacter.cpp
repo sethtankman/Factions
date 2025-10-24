@@ -7,6 +7,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
@@ -37,13 +38,14 @@ AFactionsCharacter::AFactionsCharacter()
 void AFactionsCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), FVector(-5.0f, -5.0f, 0));
+	SetActorRotation(LookAtRotation);
 }
 
 // Called every frame
 void AFactionsCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input

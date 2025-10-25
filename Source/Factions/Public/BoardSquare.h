@@ -72,4 +72,6 @@ private:
 	bool hidden;
 	APiece* OccupyingPiece;
 	FColor BlockAllButColor = FColor::Transparent;
+
+	void SelectHighlightedSquare();
 };

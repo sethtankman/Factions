@@ -88,20 +88,7 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 {
 	if (hidden == false)
 	{
-		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-		APiece *SelectedPiece = FactionsGameMode->GetSelectedPiece();
-		if (MoveCaptureMesh->IsVisible())
-			SelectedPiece->MoveToSquare(this);
-		else if (SpecialMesh->IsVisible())
-			SelectedPiece->PerformSpecial(this);
-		else if (RemoteCaptureMesh->IsVisible())
-		{
-			GetOccupyingPiece()->Destroy();
-			SetOccupyingPiece(nullptr);
-		}
-		Hide(true, FColor::Transparent);
-		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
-		FactionsGameMode->StartNextTurn();
+		SelectHighlightedSquare();
 	} 
 	else if (GetOccupyingPiece() != nullptr) 
 	{
@@ -131,6 +118,24 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 		FString Message = FString::Printf(TEXT("No Occupying Piece!"));
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, Message);
 	}
+}
+
+void ABoardSquare::SelectHighlightedSquare()
+{
+		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
+		APiece *SelectedPiece = FactionsGameMode->GetSelectedPiece();
+		if (MoveCaptureMesh->IsVisible())
+			SelectedPiece->MoveToSquare(this);
+		else if (SpecialMesh->IsVisible())
+			SelectedPiece->PerformSpecial(this);
+		else if (RemoteCaptureMesh->IsVisible())
+		{
+			GetOccupyingPiece()->Destroy();
+			SetOccupyingPiece(nullptr);
+		}
+		Hide(true, FColor::Transparent);
+		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
+		FactionsGameMode->StartNextTurn();
 }
 
 void ABoardSquare::Hide(bool tf, FColor color)

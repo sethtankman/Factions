@@ -23,7 +23,7 @@ AFactionsGameMode::AFactionsGameMode()
 void AFactionsGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-    CurrentPlayerColor = FColor::White; // TODO: stand-in for some sort of randomization
+    CurrentPlayerColor = FColor::Black; // TODO: stand-in for some sort of randomization
     TArray<AActor*> FoundActors;
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
     if(FoundActors.Num() > 0) {
@@ -57,6 +57,10 @@ void AFactionsGameMode::PostLogin(APlayerController* NewPlayer)
             {
                 MyCharacter->SetColor(AssignMyColor());
                 Players.Add(MyCharacter);
+                if(Players.Num() == 2) // TODO: Will need to change for more than 2 players
+                {
+                    StartNextTurn();
+                }
             }
         }
     }

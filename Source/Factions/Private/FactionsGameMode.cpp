@@ -80,22 +80,12 @@ FColor AFactionsGameMode::StartNextTurn()
     return CurrentPlayerColor;
 }
 
-void AFactionsGameMode::SetSelectedPiece(APiece *piece) 
-{
-    SelectedPiece = piece;
-}
-
 FColor AFactionsGameMode::AssignMyColor()
 {
     UE_LOG(LogTemp, Warning, TEXT("Color Assign index %d"), ColorAssignIndex);
     FColor AssignedColor = AllColors[ColorAssignIndex];
     ColorAssignIndex++;
     return AssignedColor;
-}
-
-APiece* AFactionsGameMode::GetSelectedPiece()
-{
-    return SelectedPiece;
 }
 
 FColor AFactionsGameMode::GetCurrentPlayerColor()

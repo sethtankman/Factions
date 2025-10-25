@@ -30,6 +30,12 @@ public:
 
 	void UnHighlightAllSquares();
 
+	UFUNCTION()
+	void SetSelectedPiece(APiece *piece);
+
+	UFUNCTION()
+	APiece* GetSelectedPiece();
+
 	UPROPERTY(EditAnywhere, Category = "Board Settings")
 	TSubclassOf<ABoardSquare> BP_BoardSquareClass;
 
@@ -43,4 +49,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Board Settings")
 	TArray<ABoardSquare *> Squares;
+	
+	UPROPERTY()
+	APiece *SelectedPiece;
 };

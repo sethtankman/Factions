@@ -123,7 +123,14 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 void ABoardSquare::SelectHighlightedSquare()
 {
 		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-		APiece *SelectedPiece = FactionsGameMode->GetSelectedPiece();
+		TArray<AActor*> FoundActors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
+		AFactionsBoard* FactionsBoard = Cast<AFactionsBoard>(FoundActors[0]);
+		if (!IsValid(FactionsBoard))
+		{
+			UE_LOG(LogTemp, Display, TEXT("FactionsBoard not valid"));
+		}
+		APiece *SelectedPiece = FactionsBoard->GetSelectedPiece();
 		if (MoveCaptureMesh->IsVisible())
 			SelectedPiece->MoveToSquare(this);
 		else if (SpecialMesh->IsVisible())
@@ -134,7 +141,7 @@ void ABoardSquare::SelectHighlightedSquare()
 			SetOccupyingPiece(nullptr);
 		}
 		Hide(true, FColor::Transparent);
-		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
+		FactionsBoard->UnHighlightAllSquares();
 		FactionsGameMode->StartNextTurn();
 }
 

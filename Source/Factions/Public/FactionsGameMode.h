@@ -27,12 +27,6 @@ public:
 	AFactionsBoard *FactionsBoard;
 
 	UFUNCTION()
-	void SetSelectedPiece(APiece *piece);
-
-	UFUNCTION()
-	APiece* GetSelectedPiece();
-
-	UFUNCTION()
 	FColor GetCurrentPlayerColor();
 
 	UFUNCTION()
@@ -46,8 +40,6 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	UPROPERTY()
-	APiece *SelectedPiece;
 	UPROPERTY() 
 	FColor CurrentPlayerColor;
 	UPROPERTY()

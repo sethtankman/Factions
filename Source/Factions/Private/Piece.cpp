@@ -2,6 +2,7 @@
 
 #include "Piece.h"
 #include "FactionsBoard.h"
+#include "FactionsCharacter.h"
 #include "FactionsGameMode.h"
 #include "Components/CapsuleComponent.h"
 #include "kismet/GameplayStatics.h"
@@ -55,25 +56,30 @@ void APiece::Tick(float DeltaTime)
 
 void APiece::PieceSelected()
 {
-	AFactionsPlayerController* PlayerController = Cast<AFactionsPlayerController>(GetController());
-	if(PlayerController && PlayerController->GetPlayerColor() != Color) // You can only select your own color pieces.
+	AFactionsPlayerController* PlayerController = Cast<AFactionsPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	AFactionsCharacter* FactionsCharacter = Cast<AFactionsCharacter>(PlayerController->GetPawn());
+	if(FactionsCharacter == nullptr)
+	{
+		UE_LOG(LogTemp, Display, TEXT("FactionsCharacter not valid"));
+		return;
+	}
+	UE_LOG(LogTemp, Display, TEXT("%s is Player color vs %s is Color"), *FactionsCharacter->GetColor().ToString(), *Color.ToString());
+	if(FactionsCharacter && FactionsCharacter->Get Color() != Color) // You can only select your own color pieces.
 		return;
 	FString Name = GetName();
 	UE_LOG(LogTemp, Display, TEXT("%s selected"), *Name);
-	AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-	if (!IsValid(FactionsGameMode))
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
+	AFactionsBoard* FactionsBoard = Cast<AFactionsBoard>(FoundActors[0]);
+	if (!IsValid(FactionsBoard))
 	{
-		UE_LOG(LogTemp, Display, TEXT("FactionsGameMode not valid"), *Name);
+		UE_LOG(LogTemp, Display, TEXT("FactionsBoard not valid"));
 	}
-	if (!IsValid(FactionsGameMode->FactionsBoard))
+	if(FactionsCharacter->IsMyTurn())
 	{
-		UE_LOG(LogTemp, Display, TEXT("FactionsBoard not valid"), *Name);
-	}
-	if(FactionsGameMode->GetCurrentPlayerColor() == Color) 
-	{
-		FactionsGameMode->SetSelectedPiece(this);
-		FactionsGameMode->FactionsBoard->UnHighlightAllSquares();
-		FactionsGameMode->FactionsBoard->HighlightSquares(OrientedMovement, BoardPosition);
+		FactionsBoard->SetSelectedPiece(this);
+		FactionsBoard->UnHighlightAllSquares();
+		FactionsBoard->HighlightSquares(OrientedMovement, BoardPosition);
 		FVector CurrentLocation = GetActorLocation();
 		SetActorLocation(CurrentLocation + RaiseHeight);
 	}

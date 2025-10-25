@@ -124,6 +124,7 @@ void AFactionsCharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProperty>& 
 	 
     //Replicate current health.
 	DOREPLIFETIME(AFactionsCharacter, PlayerColor);
+	DOREPLIFETIME(AFactionsCharacter, MyTurn);
 }
 
 bool AFactionsCharacter::IsMyTurn()

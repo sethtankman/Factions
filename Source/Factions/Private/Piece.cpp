@@ -30,10 +30,8 @@ APiece::APiece()
 void APiece::BeginPlay()
 {
 	Super::BeginPlay();
-	if (GetLocalRole() == ROLE_Authority) {
-		FTimerHandle MyTimerHandle;
-		GetWorldTimerManager().SetTimer(MyTimerHandle, this, &APiece::SetInitialSquare, 0.2f, false);
-	}
+	FTimerHandle MyTimerHandle;
+	GetWorldTimerManager().SetTimer(MyTimerHandle, this, &APiece::SetInitialSquare, 0.2f, false);
 	OrientedMovement = OrientMovement(Movement);
 }
 
@@ -135,16 +133,21 @@ FColor APiece::GetColor()
 
 void APiece::SetInitialSquare() 
 {
-	AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-	UE_LOG(LogTemp, Display, TEXT("Set Initial Square Called"));
-	if (BoardPosition.Num() == 2) {
-		CurrentSquare = FactionsGameMode->FactionsBoard->GetSquares()[(BoardPosition[0] * 8) + BoardPosition[1]];
-		CurrentSquare->SetOccupyingPiece(this);
-		// OnCurrentSquareSet(); // TODO: For syncing in multiplayer
-	}
-	else 
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
+	for (AActor* Actor : FoundActors)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Board Position not set!"));
+		AFactionsBoard* FB = Cast<AFactionsBoard>(Actor);
+		FString Message = FString::Printf(TEXT("Board Positions: %d, %d"), BoardPosition[0], BoardPosition[1]);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, Message);
+		if (BoardPosition.Num() == 2) {
+			CurrentSquare = FB->GetSquares()[(BoardPosition[0] * 8) + BoardPosition[1]];
+			CurrentSquare->SetOccupyingPiece(this);
+		}
+		else 
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Board Position not set!"));
+		}
 	}
 }
 

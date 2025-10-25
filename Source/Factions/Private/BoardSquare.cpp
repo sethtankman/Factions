@@ -9,6 +9,8 @@
 #include "FactionsGameMode.h"
 #include "kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
+#include "Net/UnrealNetwork.h"
+#include "Engine/Engine.h"
 
 // Sets default values
 ABoardSquare::ABoardSquare()

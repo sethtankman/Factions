@@ -122,27 +122,27 @@ void ABoardSquare::SelectSquare(UPrimitiveComponent *TouchedComponent, FKey key)
 
 void ABoardSquare::SelectHighlightedSquare()
 {
-		AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
-		TArray<AActor*> FoundActors;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
-		AFactionsBoard* FactionsBoard = Cast<AFactionsBoard>(FoundActors[0]);
-		if (!IsValid(FactionsBoard))
-		{
-			UE_LOG(LogTemp, Display, TEXT("FactionsBoard not valid"));
-		}
-		APiece *SelectedPiece = FactionsBoard->GetSelectedPiece();
-		if (MoveCaptureMesh->IsVisible())
-			SelectedPiece->MoveToSquare(this);
-		else if (SpecialMesh->IsVisible())
-			SelectedPiece->PerformSpecial(this);
-		else if (RemoteCaptureMesh->IsVisible())
-		{
-			GetOccupyingPiece()->Destroy();
-			SetOccupyingPiece(nullptr);
-		}
-		Hide(true, FColor::Transparent);
-		FactionsBoard->UnHighlightAllSquares();
-		FactionsGameMode->StartNextTurn();
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFactionsBoard::StaticClass(), FoundActors);
+	AFactionsBoard* FactionsBoard = Cast<AFactionsBoard>(FoundActors[0]);
+	if (!IsValid(FactionsBoard))
+	{
+		UE_LOG(LogTemp, Display, TEXT("FactionsBoard not valid"));
+	}
+	APiece *SelectedPiece = FactionsBoard->GetSelectedPiece();
+	if (MoveCaptureMesh->IsVisible())
+		SelectedPiece->MoveToSquare(this);
+	else if (SpecialMesh->IsVisible())
+		SelectedPiece->PerformSpecial(this);
+	else if (RemoteCaptureMesh->IsVisible())
+	{
+		GetOccupyingPiece()->Destroy();
+		SetOccupyingPiece(nullptr);
+	}
+	Hide(true, FColor::Transparent);
+	FactionsBoard->UnHighlightAllSquares();
+	AFactionsCharacter* FC = Cast<AFactionsCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	FC->ServerCallNextTurn();
 }
 
 void ABoardSquare::Hide(bool tf, FColor color)

@@ -67,6 +67,10 @@ public:
 
 	bool IsMyTurn();
 
+	// Only a pawn owned by the player controller can make requests to the server.
+	UFUNCTION(Server, Reliable)
+	void ServerCallNextTurn();
+
 	void SetMyTurn(bool MyTurn);
 
 	void SetColor(FColor Color);

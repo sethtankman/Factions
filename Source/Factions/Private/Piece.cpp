@@ -64,7 +64,7 @@ void APiece::PieceSelected()
 		return;
 	}
 	UE_LOG(LogTemp, Display, TEXT("%s is Player color vs %s is Color"), *FactionsCharacter->GetColor().ToString(), *Color.ToString());
-	if(FactionsCharacter && FactionsCharacter->Get Color() != Color) // You can only select your own color pieces.
+	if(FactionsCharacter && FactionsCharacter->GetColor() != Color) // You can only select your own color pieces.
 		return;
 	FString Name = GetName();
 	UE_LOG(LogTemp, Display, TEXT("%s selected"), *Name);

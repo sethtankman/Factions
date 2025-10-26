@@ -20,6 +20,7 @@ AFactionsCharacter::AFactionsCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
 
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
@@ -125,6 +126,12 @@ void AFactionsCharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProperty>& 
     //Replicate current health.
 	DOREPLIFETIME(AFactionsCharacter, PlayerColor);
 	DOREPLIFETIME(AFactionsCharacter, MyTurn);
+}
+
+void AFactionsCharacter::ServerCallNextTurn_Implementation()
+{
+	AFactionsGameMode *FactionsGameMode = Cast<AFactionsGameMode>(UGameplayStatics::GetGameMode(this));
+	FactionsGameMode->StartNextTurn();
 }
 
 bool AFactionsCharacter::IsMyTurn()
